@@ -1,0 +1,27 @@
+<app-alerts [alerts]="alerts"></app-alerts>
+
+<div class="row">
+  <ol class="breadcrumb">
+    <li *ngFor="let parent of currentNode.nodeParents"><a href="#" (click)="setCurrentNode(parent)">{{parent.name}}</a></li>
+  </ol>
+</div>
+<div class="row">
+  <div class="col-xs-8">
+    <h4>Child Values</h4>
+  </div>
+  <div class="col-xs-4">
+    <div class="btn-group pull-right" role="group" aria-label="...">
+      <button type="button" class="btn btn-default" (click)="openFileUploadModal()" title="Import into this data node"><span class="glyphicon glyphicon-import"></span></button>
+      <button type="button" class="btn btn-default" (click)="downloadNodeReport()" title="Export this data node"><span class="glyphicon glyphicon-export"></span></button>
+      <button type="button" class="btn btn-default" (click)="openAddNodeModal()"><span class="glyphicon glyphicon-plus"></span></button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <ul *ngIf="currentNode.hasChildren" class="list-group">
+    <li *ngFor="let child of currentNode.children" class="list-group-item">
+      <app-node [node]="child" (onNavigateToNode)="setCurrentNode(child)"></app-node>
+    </li>
+  </ul>
+</div>

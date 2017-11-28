@@ -1,0 +1,269 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: ZooKeeper REST API
+schemes:
+  - http
+  - https
+produces:
+  - application/json
+paths:
+  /nodes/{nodePath}:
+    get:
+      summary: Retrieves the data of the given data node.
+      description: Retrieves the data of the given data node.
+      operationId: getNodeData
+      tags:
+        - Config
+      parameters:
+        - in: path
+          description: The path of the node whose data will be retrieved  (with ~ instead of /).
+          name: nodePath
+          required: true
+          type: string      
+      responses:
+        '200':
+          description: Successful request. The node data is returned.
+          schema:
+            $ref: '#/definitions/NodeData'
+        '404':
+          description: Not found. It was not possible to find a node with the given path. 
+        '401':
+          description: Unauthorized call. Invalid user authentication token.
+        '500':
+          description: Internal server error. Please retry the operation in a few moments.
+    put:
+      summary: Sets the data of the given data node.
+      description: Sets the data of the given data node.
+      operationId: setNodeData
+      tags:
+        - Config
+      parameters:
+        - in: path
+          description: The path of the node whose data will be set  (with ~ instead of /).
+          name: nodePath
+          required: true
+          type: string      
+        - in: body
+          description: The data to set to the given node.
+          name: nodeData
+          schema:
+            $ref: '#/definitions/NodeData'
+      responses:
+        '204':
+          description: Successful request. No content is returned.
+        '400':
+          description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+        '404':
+          description: Not found. It was not possible to find a node with the given path. 
+        '401':
+          description: Unauthorized call. Invalid user authentication token.
+        '500':
+          description: Internal server error. Please retry the operation in a few moments.
+    delete:
+      summary: Deletes the given data node.
+      description: Deletes the given data node.
+      operationId: deleteNode
+      tags:
+        - Config
+      parameters:
+        - in: path
+          description: The path of the node whose data will be deleted  (with ~ instead of /).
+          name: nodePath
+          required: true
+          type: string      
+      responses:
+        '204':
+          description: Successful request. No content is returned.
+        '404':
+          description: Not found. It was not possible to find a node with the given path. 
+        '401':
+          description: Unauthorized call. Invalid user authentication token.
+        '500':
+          description: Internal server error. Please retry the operation in a few moments.
+  /nodes/{nodePath}/children:
+    get:
+      summary: Retrieves the children of the given data node.
+      description: Retrieves the children of the given data node.
+      operationId: getNodeChildren
+      tags:
+        - Config
+      parameters:
+        - in: path
+          description: The path of the node whose children will be retrieved (with ~ instead of /).
+          name: nodePath
+          required: true
+          type: string      
+      responses:
+        '200':
+          description: Successful request. The list of children is returned.
+          schema:
+            $ref: '#/definitions/ChildrenNodes'
+        '404':
+          description: Not found. It was not possible to find a node with the given path. 
+        '401':
+          description: Unauthorized call. Invalid user authentication token.
+        '500':
+          description: Internal server error. Please retry the operation in a few moments.
+    post:
+      summary: Creates a new child of the given data node.
+      description: Creates a new child of the given data node.
+      operationId: addNodeChild
+      tags:
+        - Config
+      parameters:
+        - in: path
+          description: The path of the node that will be added a child (with ~ instead of /).
+          name: nodePath
+          required: true
+          type: string      
+        - in: body
+          description: The data of the new node (name and value).
+          name: body
+          schema:
+            $ref: '#/definitions/NodeCreationRequest'
+      responses:
+        '204':
+          description: Successful request.No content is returned.
+        '400':
+          description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+        '404':
+          description: Not found. It was not possible to find a node with the given path. 
+        '401':
+          description: Unauthorized call. Invalid user authentication token.
+        '500':
+          description: Internal server error. Please retry the operation in a few moments.
+  /nodes/{nodePath}/export:
+    get:
+      summary: Retrieves an export for the given node.
+      description: Retrieves an export for the given node. The export contains the node, including its path and value, and all of its children. Exports are useful for saving snapshots of a given node and subsequently restoring them.
+      operationId: getNodeExport
+      tags:
+        - Config
+      parameters:
+        - in: path
+          description: The path of the node whose data will be exported (with ~ instead of /).
+          name: nodePath
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful request. The node export is returned.
+          schema:
+            $ref: '#/definitions/NodeExport'
+        '404':
+          description: Not found. It was not possible to find a node with the given path. 
+        '401':
+          description: Unauthorized call. Invalid user authentication token.
+        '500':
+          description: Internal server error. Please retry the operation in a few moments.
+    put:
+      summary: Imports a previously obtained export into the given node.
+      description: Imports a previously obtained export into the given node. It is possible to specify whether the value of already existing nodes should be overwritten, and whether the import should prune nodes existing in ZooKeeper that do not exist in the export.
+      operationId: restoreNodeExport
+      tags:
+        - Config
+      parameters:
+        - in: path
+          name: nodePath
+          description: The path of the node whose data will be restored (with ~ instead of /).
+          required: true
+          type: string
+        - in: query
+          name: prune
+          description: Indicates whether the import should prune nodes existing in ZooKeeper that do not exist in the export. The default is `false`.
+          required: false
+          type: boolean
+          default: false
+        - in: query
+          name: overwrite
+          description: Indicates whether the value of already existing nodes should be overwritten. The default is `true`.
+          required: false
+          type: boolean
+          default: true
+        - in: body
+          name: node
+          description: The node export that will be restored into the specified path.
+          required: false
+          schema:
+            $ref: '#/definitions/NodeExport'
+      responses:
+        '204':
+          description: Successful request. The node export has been successfully restored.
+        '400':
+          description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+        '404':
+          description: Not found. It was not possible to find a node with the given path. 
+        '401':
+          description: Unauthorized call. Invalid user authentication token.
+        '500':
+          description: Internal server error. Please retry the operation in a few moments.
+definitions:
+  ChildrenNodes:
+    type: object
+    required:
+      - children
+    properties:
+      children:
+        description: The list of children node names.
+        type: array
+        items:
+          type: string
+        example: '["timeout_seconds", "server_port"]'
+  NodeData:
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        description: The string data of the node.
+        type: string
+  NodeCreationRequest:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        description: The name of the new node.
+        type: string
+      data:
+        description: The string data of the node.
+        type: string
+  NodeExport:
+    type: object
+    required:
+      - name
+      - children
+    properties:
+      name:
+        description: The name of the node (last segment of the path).
+        type: string
+        example: "serverPort"
+      value:
+        description: The value of the node.
+        type: string
+        example: "1256"
+      children:
+        description: The value of the node.
+        type: array
+        items:
+          $ref: '#/definitions/NodeExport'
+  ErrorMessage:
+    type: object
+    required:
+      - message
+    properties:
+      message:
+        description: Error message, providing more information about a specific error.
+        type: array
+        items:
+          type: string
+        example: '["timeout_seconds", "server_port"]'
+
+

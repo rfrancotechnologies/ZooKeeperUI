@@ -1,0 +1,28 @@
+<div class="modal-header text-center">
+  <strong>Restore saved export</strong>
+</div>
+
+<div class="modal-body text-center">
+  <app-alerts [alerts]="alerts"></app-alerts>
+
+  <div class="row">
+    <div class="col-sm-7">
+      <input type="file" name="file" id="file" accept="json" (change)="onSelectedFileChanged($event)" class="inputfile">
+    </div>
+    <div class="col-sm-5 text-left">
+      <div class="row">
+        <div class="col-sm-12">
+          <label><input type="checkbox" name="prune" id="prune" [(ngModel)]="prune"> Prune nodes not existing in export</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <label><input type="checkbox" name="overwriteValues" id="overwriteValues" [(ngModel)]="overwriteValues"> Overwrite values of already existing nodes</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <button type="button" class="btn btn-primary" (click)="startUpload()" [disabled]="file === undefined">Start Upload</button>
+  </div>
+</div>

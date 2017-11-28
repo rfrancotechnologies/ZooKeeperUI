@@ -1,0 +1,23 @@
+<app-alerts [alerts]="alerts"></app-alerts>
+
+<a href="#" (click)="navigateToNode()"><span class="label label-primary">{{node.name}}</span></a>
+<div class="form-group row">
+  <div (click)="editable = true" class="col-xs-12 col-sm-10">
+    <input id="nameInput" type="text" class="form-control" name="node.value" (keyup)="onValueEdited($event)"
+        [(ngModel)]="editedValue" [disabled]="!editable" [focus]="editable">
+  </div>
+  <div class="col-xs-12 col-sm-2">
+    <div class="btn-group pull-right" role="group" aria-label="...">
+      <button type="button" class="btn btn-default" (click)="openDeletionModal(deleteNodeModal)"><span class="glyphicon glyphicon-remove"></span></button>
+      <button type="button" class="btn btn-default" (click)="editable = true" [disabled]="editable"><span class="glyphicon glyphicon-edit"></span></button>
+    </div>
+  </div>
+</div>
+
+<ng-template #deleteNodeModal>
+  <div class="modal-body text-center">
+    <p>Are you sure you want to delete the specified node?</p>
+    <button type="button" class="btn btn-default" (click)="confirmDeletion()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="this.modalRef.hide()" >No</button>
+  </div>
+</ng-template>

@@ -1,0 +1,8 @@
+<div *ngFor="let alert of alerts.alerts">
+  <div
+      [ngClass]="{'alert': true, 'alert-dismissible':true, 'alert-danger':isError(alert), 'alert-success':isSuccess(alert), 'alert-warning':isWarning(alert)}"
+      role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="removeAlert(alert)"><span aria-hidden="true">&times;</span></button>
+    <span [ngClass]="{'glyphicon': true, 'glyphicon-exclamation-sign':isError(alert), 'glyphicon-info-sign':isSuccess(alert), 'glyphicon-warning-sign':isWarning(alert)}"></span> {{alert.message}}
+  </div>
+</div>
