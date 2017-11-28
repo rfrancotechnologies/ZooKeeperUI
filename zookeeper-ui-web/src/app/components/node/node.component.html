@@ -1,6 +1,8 @@
 <app-alerts [alerts]="alerts"></app-alerts>
 
-<a href="#" (click)="navigateToNode()"><span class="label label-primary">{{node.name}}</span></a>
+<button class="btn btn-primary btn-xs" type="button" (click)="navigateToNode()">
+  {{node.name}} <span class="badge children-badge">{{node.children.length}} <img class="children-icon" src="../../../assets/img/children.svg" alt="children"></span> 
+</button>
 <div class="form-group row">
   <div (click)="editable = true" class="col-xs-12 col-sm-10">
     <input id="nameInput" type="text" class="form-control" name="node.value" (keyup)="onValueEdited($event)"

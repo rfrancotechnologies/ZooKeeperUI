@@ -9,5 +9,5 @@ import { properties } from '../assets/properties';
   providers: [{ provide: BASE_PATH, useValue: properties.zooKeeperServiceBaseUrl }]
 })
 export class AppComponent {
-  title = 'ZooKeeper Web UI';
+  title = 'ZooKeeperUI';
 }
