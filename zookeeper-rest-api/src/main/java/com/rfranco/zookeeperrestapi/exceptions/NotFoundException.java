@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * Created by ruben.martinez on 21/11/2017.
  */
-@ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
-public class InternalServerErrorException extends RuntimeException {
-    public InternalServerErrorException(String message, Throwable cause) {
+@ResponseStatus(value=HttpStatus.NOT_FOUND)
+public class NotFoundException extends RuntimeException {
+    public NotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 }

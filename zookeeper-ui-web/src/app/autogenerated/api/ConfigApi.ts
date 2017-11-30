@@ -44,7 +44,7 @@ export class ConfigApi {
     /**
      * Creates a new child of the given data node.
      * Creates a new child of the given data node.
-     * @param nodePath The path of the node that will be added a child (with ~ instead of /).
+     * @param nodePath The path of the node that will be added a child (using ~~ instead of / as zpath separator).
      * @param body The data of the new node (name and value).
      */
     public addNodeChild(nodePath: string, body?: models.NodeCreationRequest, extraHttpRequestParams?: any): Observable<{}> {
@@ -61,7 +61,7 @@ export class ConfigApi {
     /**
      * Deletes the given data node.
      * Deletes the given data node.
-     * @param nodePath The path of the node whose data will be deleted  (with ~ instead of /).
+     * @param nodePath The path of the node whose data will be deleted (using ~~ instead of / as zpath separator).
      */
     public deleteNode(nodePath: string, extraHttpRequestParams?: any): Observable<{}> {
         return this.deleteNodeWithHttpInfo(nodePath, extraHttpRequestParams)
@@ -77,7 +77,7 @@ export class ConfigApi {
     /**
      * Retrieves the children of the given data node.
      * Retrieves the children of the given data node.
-     * @param nodePath The path of the node whose children will be retrieved (with ~ instead of /).
+     * @param nodePath The path of the node whose children will be retrieved (using ~~ instead of / as zpath separator).
      */
     public getNodeChildren(nodePath: string, extraHttpRequestParams?: any): Observable<models.ChildrenNodes> {
         return this.getNodeChildrenWithHttpInfo(nodePath, extraHttpRequestParams)
@@ -93,7 +93,7 @@ export class ConfigApi {
     /**
      * Retrieves the data of the given data node.
      * Retrieves the data of the given data node.
-     * @param nodePath The path of the node whose data will be retrieved  (with ~ instead of /).
+     * @param nodePath The path of the node whose data will be retrieved (using ~~ instead of / as zpath separator).
      */
     public getNodeData(nodePath: string, extraHttpRequestParams?: any): Observable<models.NodeData> {
         return this.getNodeDataWithHttpInfo(nodePath, extraHttpRequestParams)
@@ -107,9 +107,25 @@ export class ConfigApi {
     }
 
     /**
+     * Retrieves the data type of the given node.
+     * Retrieves the data type of the given node.
+     * @param nodePath The path of the node whose data type will be retrieved (using ~~ instead of / as zpath separator).
+     */
+    public getNodeDataType(nodePath: string, extraHttpRequestParams?: any): Observable<models.NodeDataType> {
+        return this.getNodeDataTypeWithHttpInfo(nodePath, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
      * Retrieves an export for the given node.
      * Retrieves an export for the given node. The export contains the node, including its path and value, and all of its children. Exports are useful for saving snapshots of a given node and subsequently restoring them.
-     * @param nodePath The path of the node whose data will be exported (with ~ instead of /).
+     * @param nodePath The path of the node whose data will be exported (using ~~ instead of / as zpath separator).
      */
     public getNodeExport(nodePath: string, extraHttpRequestParams?: any): Observable<models.NodeExport> {
         return this.getNodeExportWithHttpInfo(nodePath, extraHttpRequestParams)
@@ -125,7 +141,7 @@ export class ConfigApi {
     /**
      * Imports a previously obtained export into the given node.
      * Imports a previously obtained export into the given node. It is possible to specify whether the value of already existing nodes should be overwritten, and whether the import should prune nodes existing in ZooKeeper that do not exist in the export.
-     * @param nodePath The path of the node whose data will be restored (with ~ instead of /).
+     * @param nodePath The path of the node whose data will be restored (using ~~ instead of / as zpath separator).
      * @param prune Indicates whether the import should prune nodes existing in ZooKeeper that do not exist in the export. The default is &#x60;false&#x60;.
      * @param overwrite Indicates whether the value of already existing nodes should be overwritten. The default is &#x60;true&#x60;.
      * @param node The node export that will be restored into the specified path.
@@ -144,7 +160,7 @@ export class ConfigApi {
     /**
      * Sets the data of the given data node.
      * Sets the data of the given data node.
-     * @param nodePath The path of the node whose data will be set  (with ~ instead of /).
+     * @param nodePath The path of the node whose data will be set (using ~~ instead of / as zpath separator).
      * @param nodeData The data to set to the given node.
      */
     public setNodeData(nodePath: string, nodeData?: models.NodeData, extraHttpRequestParams?: any): Observable<{}> {
@@ -158,11 +174,28 @@ export class ConfigApi {
             });
     }
 
+    /**
+     * Sets the data type of the given node.
+     * Sets the data type of the given node.
+     * @param nodePath The path of the node whose data will be restored (using ~~ instead of / as zpath separator).
+     * @param nodeDataType The node data type to set to the node at the specified path.
+     */
+    public setNodeDataType(nodePath: string, nodeDataType: models.NodeDataType, extraHttpRequestParams?: any): Observable<{}> {
+        return this.setNodeDataTypeWithHttpInfo(nodePath, nodeDataType, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
 
     /**
      * Creates a new child of the given data node.
      * Creates a new child of the given data node.
-     * @param nodePath The path of the node that will be added a child (with ~ instead of /).
+     * @param nodePath The path of the node that will be added a child (using ~~ instead of / as zpath separator).
      * @param body The data of the new node (name and value).
      */
     public addNodeChildWithHttpInfo(nodePath: string, body?: models.NodeCreationRequest, extraHttpRequestParams?: any): Observable<Response> {
@@ -204,7 +237,7 @@ export class ConfigApi {
     /**
      * Deletes the given data node.
      * Deletes the given data node.
-     * @param nodePath The path of the node whose data will be deleted  (with ~ instead of /).
+     * @param nodePath The path of the node whose data will be deleted (using ~~ instead of / as zpath separator).
      */
     public deleteNodeWithHttpInfo(nodePath: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/nodes/${nodePath}'
@@ -242,7 +275,7 @@ export class ConfigApi {
     /**
      * Retrieves the children of the given data node.
      * Retrieves the children of the given data node.
-     * @param nodePath The path of the node whose children will be retrieved (with ~ instead of /).
+     * @param nodePath The path of the node whose children will be retrieved (using ~~ instead of / as zpath separator).
      */
     public getNodeChildrenWithHttpInfo(nodePath: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/nodes/${nodePath}/children'
@@ -280,7 +313,7 @@ export class ConfigApi {
     /**
      * Retrieves the data of the given data node.
      * Retrieves the data of the given data node.
-     * @param nodePath The path of the node whose data will be retrieved  (with ~ instead of /).
+     * @param nodePath The path of the node whose data will be retrieved (using ~~ instead of / as zpath separator).
      */
     public getNodeDataWithHttpInfo(nodePath: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/nodes/${nodePath}'
@@ -316,9 +349,47 @@ export class ConfigApi {
     }
 
     /**
+     * Retrieves the data type of the given node.
+     * Retrieves the data type of the given node.
+     * @param nodePath The path of the node whose data type will be retrieved (using ~~ instead of / as zpath separator).
+     */
+    public getNodeDataTypeWithHttpInfo(nodePath: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/nodes/${nodePath}/data_type'
+                    .replace('${' + 'nodePath' + '}', String(nodePath));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'nodePath' is not null or undefined
+        if (nodePath === null || nodePath === undefined) {
+            throw new Error('Required parameter nodePath was null or undefined when calling getNodeDataType.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
      * Retrieves an export for the given node.
      * Retrieves an export for the given node. The export contains the node, including its path and value, and all of its children. Exports are useful for saving snapshots of a given node and subsequently restoring them.
-     * @param nodePath The path of the node whose data will be exported (with ~ instead of /).
+     * @param nodePath The path of the node whose data will be exported (using ~~ instead of / as zpath separator).
      */
     public getNodeExportWithHttpInfo(nodePath: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/nodes/${nodePath}/export'
@@ -356,7 +427,7 @@ export class ConfigApi {
     /**
      * Imports a previously obtained export into the given node.
      * Imports a previously obtained export into the given node. It is possible to specify whether the value of already existing nodes should be overwritten, and whether the import should prune nodes existing in ZooKeeper that do not exist in the export.
-     * @param nodePath The path of the node whose data will be restored (with ~ instead of /).
+     * @param nodePath The path of the node whose data will be restored (using ~~ instead of / as zpath separator).
      * @param prune Indicates whether the import should prune nodes existing in ZooKeeper that do not exist in the export. The default is &#x60;false&#x60;.
      * @param overwrite Indicates whether the value of already existing nodes should be overwritten. The default is &#x60;true&#x60;.
      * @param node The node export that will be restored into the specified path.
@@ -408,7 +479,7 @@ export class ConfigApi {
     /**
      * Sets the data of the given data node.
      * Sets the data of the given data node.
-     * @param nodePath The path of the node whose data will be set  (with ~ instead of /).
+     * @param nodePath The path of the node whose data will be set (using ~~ instead of / as zpath separator).
      * @param nodeData The data to set to the given node.
      */
     public setNodeDataWithHttpInfo(nodePath: string, nodeData?: models.NodeData, extraHttpRequestParams?: any): Observable<Response> {
@@ -436,6 +507,52 @@ export class ConfigApi {
             method: RequestMethod.Put,
             headers: headers,
             body: nodeData == null ? '' : JSON.stringify(nodeData), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Sets the data type of the given node.
+     * Sets the data type of the given node.
+     * @param nodePath The path of the node whose data will be restored (using ~~ instead of / as zpath separator).
+     * @param nodeDataType The node data type to set to the node at the specified path.
+     */
+    public setNodeDataTypeWithHttpInfo(nodePath: string, nodeDataType: models.NodeDataType, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/nodes/${nodePath}/data_type'
+                    .replace('${' + 'nodePath' + '}', String(nodePath));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'nodePath' is not null or undefined
+        if (nodePath === null || nodePath === undefined) {
+            throw new Error('Required parameter nodePath was null or undefined when calling setNodeDataType.');
+        }
+        // verify required parameter 'nodeDataType' is not null or undefined
+        if (nodeDataType === null || nodeDataType === undefined) {
+            throw new Error('Required parameter nodeDataType was null or undefined when calling setNodeDataType.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Put,
+            headers: headers,
+            body: nodeDataType == null ? '' : JSON.stringify(nodeDataType), // https://github.com/angular/angular/issues/10612
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });

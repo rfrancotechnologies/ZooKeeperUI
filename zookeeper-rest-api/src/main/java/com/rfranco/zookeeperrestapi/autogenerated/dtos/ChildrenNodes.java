@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 /**
  * ChildrenNodes
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-24T13:56:03.982+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-30T13:29:36.381+01:00")
 
 public class ChildrenNodes   {
   @JsonProperty("children")
@@ -33,7 +33,7 @@ public class ChildrenNodes   {
    * The list of children node names.
    * @return children
   **/
-  @ApiModelProperty(example = "\"[\\\"timeout_seconds\\\", \\\"server_port\\\"]\"", required = true, value = "The list of children node names.")
+  @ApiModelProperty(required = true, value = "The list of children node names.")
   @NotNull
 
 

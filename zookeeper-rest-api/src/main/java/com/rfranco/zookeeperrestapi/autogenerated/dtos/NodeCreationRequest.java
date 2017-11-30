@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 /**
  * NodeCreationRequest
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-24T13:56:03.982+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-30T13:29:36.381+01:00")
 
 public class NodeCreationRequest   {
   @JsonProperty("name")

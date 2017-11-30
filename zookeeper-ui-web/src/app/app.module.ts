@@ -20,7 +20,12 @@ import { AlertsComponent } from './components/alerts/alerts.component';
 
 @NgModule({
   declarations: [
-    AppComponent, NodesPageComponent, NodeCreationModalComponent, NodeComponent, FileUploadModalComponent, AlertsComponent
+    AppComponent,
+    NodesPageComponent,
+    NodeCreationModalComponent,
+    NodeComponent,
+    FileUploadModalComponent,
+    AlertsComponent
   ],
   entryComponents: [NodeCreationModalComponent, FileUploadModalComponent],
   imports: [

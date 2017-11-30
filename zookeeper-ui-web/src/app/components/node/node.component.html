@@ -1,18 +1,43 @@
 <app-alerts [alerts]="alerts"></app-alerts>
 
-<button class="btn btn-primary btn-xs" type="button" (click)="navigateToNode()">
-  {{node.name}} <span class="badge children-badge">{{node.children.length}} <img class="children-icon" src="../../../assets/img/children.svg" alt="children"></span> 
-</button>
+<a class="btn btn-primary btn-xs" type="button" routerLink="/{{node.path}}">
+  {{node.name}} <span class="badge children-badge">{{node.children.length}} <img class="children-icon" src="../../../assets/img/children.svg" alt="children"></span>
+</a>
+
+<div class="btn-group">
+  <button class="btn btn-success btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{node.type}} <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li *ngFor="let type of nodeDataTypes"><a href="#" (click)="setDataType(type)">{{type}}</a></li>
+  </ul>
+</div>
+
 <div class="form-group row">
-  <div (click)="editable = true" class="col-xs-12 col-sm-10">
-    <input id="nameInput" type="text" class="form-control" name="node.value" (keyup)="onValueEdited($event)"
-        [(ngModel)]="editedValue" [disabled]="!editable" [focus]="editable">
+  <div (click)="editing = true" class="col-xs-12 col-sm-11">
+
+    <input *ngIf="node.type === NodeDataType.String" id="nameInput" type="text" class="form-control" name="node.value" (keyup)="onValueEdited($event)"
+        [(ngModel)]="editedValue">
+    <input *ngIf="node.type === NodeDataType.Number" id="nameInput" type="number" class="form-control" name="node.value" (keyup)="onValueEdited($event)"
+        [(ngModel)]="editedValue">
+    <div #jsoneditor [ngClass]="{'hidden': node.type !== NodeDataType.Json, 'jsoneditor': true}"></div>
   </div>
-  <div class="col-xs-12 col-sm-2">
+  <div class="col-xs-12 col-sm-1">
     <div class="btn-group pull-right" role="group" aria-label="...">
-      <button type="button" class="btn btn-default" (click)="openDeletionModal(deleteNodeModal)"><span class="glyphicon glyphicon-remove"></span></button>
-      <button type="button" class="btn btn-default" (click)="editable = true" [disabled]="editable"><span class="glyphicon glyphicon-edit"></span></button>
+      <button type="button" class="btn btn-danger" (click)="openDeletionModal(deleteNodeModal)"><span class="glyphicon glyphicon-remove"></span></button>
     </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <button type="button"
+        class="btn btn-primary"
+        (click)="setNodeData()"
+        [ngClass]="{hidden: !editing}">Save</button>
+    <button type="button"
+        class="btn btn-danger"
+        (click)="cancelEdition()"
+        [ngClass]="{hidden: !editing}">Cancel</button>
   </div>
 </div>
 

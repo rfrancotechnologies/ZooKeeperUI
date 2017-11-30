@@ -2,7 +2,7 @@
 
 <div class="row">
   <ol class="breadcrumb">
-    <li *ngFor="let parent of currentNode.nodeParents"><a href="#" (click)="setCurrentNode(parent)">{{parent.name}}</a></li>
+    <li *ngFor="let parent of currentNodeParents"><a routerLink="/{{parent.path}}">{{parent.name}}</a></li>
   </ol>
 </div>
 <div class="row">
@@ -24,4 +24,8 @@
       <app-node [node]="child" (onNavigateToNode)="setCurrentNode(child)"></app-node>
     </li>
   </ul>
+  <ul *ngIf="!currentNode.hasChildren" class="list-group" >
+    <li class="text-center text-muted list-group-item">No children found</li>
+  </ul>
+
 </div>

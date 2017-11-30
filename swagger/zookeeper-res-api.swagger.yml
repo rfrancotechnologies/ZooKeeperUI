@@ -17,7 +17,7 @@ paths:
         - Config
       parameters:
         - in: path
-          description: The path of the node whose data will be retrieved  (with ~ instead of /).
+          description: The path of the node whose data will be retrieved (using ~~ instead of / as zpath separator).
           name: nodePath
           required: true
           type: string      
@@ -40,7 +40,7 @@ paths:
         - Config
       parameters:
         - in: path
-          description: The path of the node whose data will be set  (with ~ instead of /).
+          description: The path of the node whose data will be set (using ~~ instead of / as zpath separator).
           name: nodePath
           required: true
           type: string      
@@ -54,12 +54,10 @@ paths:
           description: Successful request. No content is returned.
         '400':
           description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
-          schema:
-            $ref: '#/definitions/ErrorMessage'
-        '404':
-          description: Not found. It was not possible to find a node with the given path. 
         '401':
           description: Unauthorized call. Invalid user authentication token.
+        '404':
+          description: Not found. It was not possible to find a node with the given path. 
         '500':
           description: Internal server error. Please retry the operation in a few moments.
     delete:
@@ -70,7 +68,7 @@ paths:
         - Config
       parameters:
         - in: path
-          description: The path of the node whose data will be deleted  (with ~ instead of /).
+          description: The path of the node whose data will be deleted (using ~~ instead of / as zpath separator).
           name: nodePath
           required: true
           type: string      
@@ -92,7 +90,7 @@ paths:
         - Config
       parameters:
         - in: path
-          description: The path of the node whose children will be retrieved (with ~ instead of /).
+          description: The path of the node whose children will be retrieved (using ~~ instead of / as zpath separator).
           name: nodePath
           required: true
           type: string      
@@ -115,7 +113,7 @@ paths:
         - Config
       parameters:
         - in: path
-          description: The path of the node that will be added a child (with ~ instead of /).
+          description: The path of the node that will be added a child (using ~~ instead of / as zpath separator).
           name: nodePath
           required: true
           type: string      
@@ -129,8 +127,6 @@ paths:
           description: Successful request.No content is returned.
         '400':
           description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
-          schema:
-            $ref: '#/definitions/ErrorMessage'
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
@@ -146,7 +142,7 @@ paths:
         - Config
       parameters:
         - in: path
-          description: The path of the node whose data will be exported (with ~ instead of /).
+          description: The path of the node whose data will be exported (using ~~ instead of / as zpath separator).
           name: nodePath
           required: true
           type: string
@@ -170,7 +166,7 @@ paths:
       parameters:
         - in: path
           name: nodePath
-          description: The path of the node whose data will be restored (with ~ instead of /).
+          description: The path of the node whose data will be restored (using ~~ instead of / as zpath separator).
           required: true
           type: string
         - in: query
@@ -196,8 +192,59 @@ paths:
           description: Successful request. The node export has been successfully restored.
         '400':
           description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
+        '404':
+          description: Not found. It was not possible to find a node with the given path. 
+        '401':
+          description: Unauthorized call. Invalid user authentication token.
+        '500':
+          description: Internal server error. Please retry the operation in a few moments.
+  /nodes/{nodePath}/data_type:
+    get:
+      summary: Retrieves the data type of the given node.
+      description: Retrieves the data type of the given node.
+      operationId: getNodeDataType
+      tags:
+        - Config
+      parameters:
+        - in: path
+          description: The path of the node whose data type will be retrieved (using ~~ instead of / as zpath separator).
+          name: nodePath
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful request. The node data type is returned.
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/NodeDataType'
+        '404':
+          description: Not found. It was not possible to find a node with the given path. 
+        '401':
+          description: Unauthorized call. Invalid user authentication token.
+        '500':
+          description: Internal server error. Please retry the operation in a few moments.
+    put:
+      summary: Sets the data type of the given node.
+      description: Sets the data type of the given node.
+      operationId: setNodeDataType
+      tags:
+        - Config
+      parameters:
+        - in: path
+          name: nodePath
+          description: The path of the node whose data will be restored (using ~~ instead of / as zpath separator).
+          required: true
+          type: string
+        - in: body
+          name: nodeDataType
+          description: The node data type to set to the node at the specified path.
+          required: true
+          schema:
+            $ref: '#/definitions/NodeDataType'
+      responses:
+        '204':
+          description: Successful request. The node data type has been successfully set.
+        '400':
+          description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
@@ -215,7 +262,6 @@ definitions:
         type: array
         items:
           type: string
-        example: '["timeout_seconds", "server_port"]'
   NodeData:
     type: object
     required:
@@ -254,16 +300,9 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/NodeExport'
-  ErrorMessage:
-    type: object
-    required:
-      - message
-    properties:
-      message:
-        description: Error message, providing more information about a specific error.
-        type: array
-        items:
-          type: string
-        example: '["timeout_seconds", "server_port"]'
-
-
+  NodeDataType:
+    type: string
+    enum: 
+      - String
+      - Number
+      - Json

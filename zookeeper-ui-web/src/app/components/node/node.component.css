@@ -8,3 +8,12 @@
   max-width: 1em;
   max-height: 1em;
 }
+
+.hidden {
+  display:none;
+}
+
+.jsoneditor {
+  height: 250px;
+  border-radius: 5px;
+}

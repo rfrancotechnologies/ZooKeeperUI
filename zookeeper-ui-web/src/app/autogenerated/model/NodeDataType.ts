@@ -12,10 +12,8 @@
 
 import * as models from './models';
 
-export interface ErrorMessage {
-    /**
-     * Error message, providing more information about a specific error.
-     */
-    message: Array<string>;
-
+export enum NodeDataType {
+    String = <any> 'String',
+    Number = <any> 'Number',
+    Json = <any> 'Json'
 }

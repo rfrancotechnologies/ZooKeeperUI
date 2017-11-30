@@ -27,7 +27,7 @@ dependencies {
 	compile('io.springfox:springfox-swagger2:2.4.0')
 	compile('io.springfox:springfox-swagger-ui:2.4.0')
 	compile('joda-time:joda-time:2.9.4')
-	compile group: 'org.apache.curator', name: 'curator-framework', version: '3.3.0'
+	compile group: 'org.apache.curator', name: 'curator-framework', version: '4.0.0'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
