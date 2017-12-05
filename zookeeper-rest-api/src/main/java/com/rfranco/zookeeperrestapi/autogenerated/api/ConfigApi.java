@@ -25,20 +25,20 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-30T13:29:36.381+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-12-05T13:08:55.108+01:00")
 
-@Api(value = "nodes", description = "the nodes API")
-public interface NodesApi {
+@Api(value = "Config", description = "the Config API")
+public interface ConfigApi {
 
     @ApiOperation(value = "Creates a new child of the given data node.", notes = "Creates a new child of the given data node.", response = Void.class, tags={ "Config", })
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Successful request.No content is returned.", response = Void.class),
         @ApiResponse(code = 400, message = "Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.", response = Void.class),
-        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication token.", response = Void.class),
+        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication cookie.", response = Void.class),
         @ApiResponse(code = 404, message = "Not found. It was not possible to find a node with the given path.", response = Void.class),
         @ApiResponse(code = 500, message = "Internal server error. Please retry the operation in a few moments.", response = Void.class) })
     
-    @RequestMapping(value = "/nodes/{nodePath}/children",
+    @RequestMapping(value = "/api/nodes/{nodePath}/children",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
     ResponseEntity<Void> addNodeChild(@ApiParam(value = "The path of the node that will be added a child (using ~~ instead of / as zpath separator).",required=true ) @PathVariable("nodePath") String nodePath,@ApiParam(value = "The data of the new node (name and value)."  )  @Valid @RequestBody NodeCreationRequest body);
@@ -47,11 +47,11 @@ public interface NodesApi {
     @ApiOperation(value = "Deletes the given data node.", notes = "Deletes the given data node.", response = Void.class, tags={ "Config", })
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Successful request. No content is returned.", response = Void.class),
-        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication token.", response = Void.class),
+        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication cookie.", response = Void.class),
         @ApiResponse(code = 404, message = "Not found. It was not possible to find a node with the given path.", response = Void.class),
         @ApiResponse(code = 500, message = "Internal server error. Please retry the operation in a few moments.", response = Void.class) })
     
-    @RequestMapping(value = "/nodes/{nodePath}",
+    @RequestMapping(value = "/api/nodes/{nodePath}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteNode(@ApiParam(value = "The path of the node whose data will be deleted (using ~~ instead of / as zpath separator).",required=true ) @PathVariable("nodePath") String nodePath);
@@ -60,11 +60,11 @@ public interface NodesApi {
     @ApiOperation(value = "Retrieves the children of the given data node.", notes = "Retrieves the children of the given data node.", response = ChildrenNodes.class, tags={ "Config", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Successful request. The list of children is returned.", response = ChildrenNodes.class),
-        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication token.", response = Void.class),
+        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication cookie.", response = Void.class),
         @ApiResponse(code = 404, message = "Not found. It was not possible to find a node with the given path.", response = Void.class),
         @ApiResponse(code = 500, message = "Internal server error. Please retry the operation in a few moments.", response = Void.class) })
     
-    @RequestMapping(value = "/nodes/{nodePath}/children",
+    @RequestMapping(value = "/api/nodes/{nodePath}/children",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<ChildrenNodes> getNodeChildren(@ApiParam(value = "The path of the node whose children will be retrieved (using ~~ instead of / as zpath separator).",required=true ) @PathVariable("nodePath") String nodePath);
@@ -73,11 +73,11 @@ public interface NodesApi {
     @ApiOperation(value = "Retrieves the data of the given data node.", notes = "Retrieves the data of the given data node.", response = NodeData.class, tags={ "Config", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Successful request. The node data is returned.", response = NodeData.class),
-        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication token.", response = Void.class),
+        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication cookie.", response = Void.class),
         @ApiResponse(code = 404, message = "Not found. It was not possible to find a node with the given path.", response = Void.class),
         @ApiResponse(code = 500, message = "Internal server error. Please retry the operation in a few moments.", response = Void.class) })
     
-    @RequestMapping(value = "/nodes/{nodePath}",
+    @RequestMapping(value = "/api/nodes/{nodePath}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<NodeData> getNodeData(@ApiParam(value = "The path of the node whose data will be retrieved (using ~~ instead of / as zpath separator).",required=true ) @PathVariable("nodePath") String nodePath);
@@ -86,11 +86,11 @@ public interface NodesApi {
     @ApiOperation(value = "Retrieves the data type of the given node.", notes = "Retrieves the data type of the given node.", response = NodeDataType.class, tags={ "Config", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Successful request. The node data type is returned.", response = NodeDataType.class),
-        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication token.", response = Void.class),
+        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication cookie.", response = Void.class),
         @ApiResponse(code = 404, message = "Not found. It was not possible to find a node with the given path.", response = Void.class),
         @ApiResponse(code = 500, message = "Internal server error. Please retry the operation in a few moments.", response = Void.class) })
     
-    @RequestMapping(value = "/nodes/{nodePath}/data_type",
+    @RequestMapping(value = "/api/nodes/{nodePath}/data_type",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<NodeDataType> getNodeDataType(@ApiParam(value = "The path of the node whose data type will be retrieved (using ~~ instead of / as zpath separator).",required=true ) @PathVariable("nodePath") String nodePath);
@@ -99,11 +99,11 @@ public interface NodesApi {
     @ApiOperation(value = "Retrieves an export for the given node.", notes = "Retrieves an export for the given node. The export contains the node, including its path and value, and all of its children. Exports are useful for saving snapshots of a given node and subsequently restoring them.", response = NodeExport.class, tags={ "Config", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Successful request. The node export is returned.", response = NodeExport.class),
-        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication token.", response = Void.class),
+        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication cookie.", response = Void.class),
         @ApiResponse(code = 404, message = "Not found. It was not possible to find a node with the given path.", response = Void.class),
         @ApiResponse(code = 500, message = "Internal server error. Please retry the operation in a few moments.", response = Void.class) })
     
-    @RequestMapping(value = "/nodes/{nodePath}/export",
+    @RequestMapping(value = "/api/nodes/{nodePath}/export",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<NodeExport> getNodeExport(@ApiParam(value = "The path of the node whose data will be exported (using ~~ instead of / as zpath separator).",required=true ) @PathVariable("nodePath") String nodePath);
@@ -113,11 +113,11 @@ public interface NodesApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Successful request. The node export has been successfully restored.", response = Void.class),
         @ApiResponse(code = 400, message = "Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.", response = Void.class),
-        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication token.", response = Void.class),
+        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication cookie.", response = Void.class),
         @ApiResponse(code = 404, message = "Not found. It was not possible to find a node with the given path.", response = Void.class),
         @ApiResponse(code = 500, message = "Internal server error. Please retry the operation in a few moments.", response = Void.class) })
     
-    @RequestMapping(value = "/nodes/{nodePath}/export",
+    @RequestMapping(value = "/api/nodes/{nodePath}/export",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
     ResponseEntity<Void> restoreNodeExport(@ApiParam(value = "The path of the node whose data will be restored (using ~~ instead of / as zpath separator).",required=true ) @PathVariable("nodePath") String nodePath,@ApiParam(value = "Indicates whether the import should prune nodes existing in ZooKeeper that do not exist in the export. The default is `false`.", defaultValue = "false") @RequestParam(value = "prune", required = false, defaultValue="false") Boolean prune,@ApiParam(value = "Indicates whether the value of already existing nodes should be overwritten. The default is `true`.", defaultValue = "true") @RequestParam(value = "overwrite", required = false, defaultValue="true") Boolean overwrite,@ApiParam(value = "The node export that will be restored into the specified path."  )  @Valid @RequestBody NodeExport node);
@@ -127,11 +127,11 @@ public interface NodesApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Successful request. No content is returned.", response = Void.class),
         @ApiResponse(code = 400, message = "Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.", response = Void.class),
-        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication token.", response = Void.class),
+        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication cookie.", response = Void.class),
         @ApiResponse(code = 404, message = "Not found. It was not possible to find a node with the given path.", response = Void.class),
         @ApiResponse(code = 500, message = "Internal server error. Please retry the operation in a few moments.", response = Void.class) })
     
-    @RequestMapping(value = "/nodes/{nodePath}",
+    @RequestMapping(value = "/api/nodes/{nodePath}",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
     ResponseEntity<Void> setNodeData(@ApiParam(value = "The path of the node whose data will be set (using ~~ instead of / as zpath separator).",required=true ) @PathVariable("nodePath") String nodePath,@ApiParam(value = "The data to set to the given node."  )  @Valid @RequestBody NodeData nodeData);
@@ -141,11 +141,11 @@ public interface NodesApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Successful request. The node data type has been successfully set.", response = Void.class),
         @ApiResponse(code = 400, message = "Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.", response = Void.class),
-        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication token.", response = Void.class),
+        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication cookie.", response = Void.class),
         @ApiResponse(code = 404, message = "Not found. It was not possible to find a node with the given path.", response = Void.class),
         @ApiResponse(code = 500, message = "Internal server error. Please retry the operation in a few moments.", response = Void.class) })
     
-    @RequestMapping(value = "/nodes/{nodePath}/data_type",
+    @RequestMapping(value = "/api/nodes/{nodePath}/data_type",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
     ResponseEntity<Void> setNodeDataType(@ApiParam(value = "The path of the node whose data will be restored (using ~~ instead of / as zpath separator).",required=true ) @PathVariable("nodePath") String nodePath,@ApiParam(value = "The node data type to set to the node at the specified path." ,required=true )  @Valid @RequestBody NodeDataType nodeDataType);

@@ -21,6 +21,7 @@ export class NodesPageComponent implements OnInit {
   alerts: AlertList;
   modalRef: BsModalRef;
   currentNodeParents: Node[];
+  loading: boolean;
 
   constructor(private _configApi : ConfigApi,
               private modalService: BsModalService,
@@ -33,6 +34,7 @@ export class NodesPageComponent implements OnInit {
       .subscribe((nodePath) => this.setCurrentNode(nodePath));
 
     this.currentNodeParents = this.currentNode.parents;
+    this.loading = true;
   }
 
   setCurrentNode(nodePath: string): void {
@@ -42,9 +44,11 @@ export class NodesPageComponent implements OnInit {
   }
 
   reloadNodeChildren(node: Node, loadGrandChildren: boolean = true) {
+    this.loading = true;
     this._configApi.getNodeChildren(node.path)
       .subscribe(
         childrenNodes => {
+          this.loading = false;
           node.clearChildren();
           for (let childName of childrenNodes.children) {
             let childNode = node.addChildNode(childName);
@@ -54,6 +58,7 @@ export class NodesPageComponent implements OnInit {
           }
         },
         error => {
+          this.loading = false;
           this.onError(error);
         }
       );

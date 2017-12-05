@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 /**
  * ChildrenNodes
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-30T13:29:36.381+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-12-05T13:08:55.108+01:00")
 
 public class ChildrenNodes   {
   @JsonProperty("children")

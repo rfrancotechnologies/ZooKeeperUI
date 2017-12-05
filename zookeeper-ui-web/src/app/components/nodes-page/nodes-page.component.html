@@ -2,7 +2,7 @@
 
 <div class="row">
   <ol class="breadcrumb">
-    <li *ngFor="let parent of currentNodeParents"><a routerLink="/{{parent.path}}">{{parent.name}}</a></li>
+    <li *ngFor="let parent of currentNodeParents"><a routerLink="/nodes/{{parent.path}}">{{parent.name}}</a></li>
   </ol>
 </div>
 <div class="row">
@@ -18,7 +18,10 @@
   </div>
 </div>
 
-<div class="row">
+<div *ngIf="loading" class="row">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+<div *ngIf="!loading" class="row">
   <ul *ngIf="currentNode.hasChildren" class="list-group">
     <li *ngFor="let child of currentNode.children" class="list-group-item">
       <app-node [node]="child" (onNavigateToNode)="setCurrentNode(child)"></app-node>
@@ -27,5 +30,4 @@
   <ul *ngIf="!currentNode.hasChildren" class="list-group" >
     <li class="text-center text-muted list-group-item">No children found</li>
   </ul>
-
 </div>

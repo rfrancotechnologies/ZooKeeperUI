@@ -12,10 +12,18 @@
 
 import * as models from './models';
 
-export interface NodeData {
+/**
+ * User credentials (user and password) that can be used to log a user in the API.
+ */
+export interface UserCredentials {
     /**
-     * The string data of the node.
+     * The user name.
      */
-    data: string;
+    userName?: string;
+
+    /**
+     * The user password.
+     */
+    password?: string;
 
 }

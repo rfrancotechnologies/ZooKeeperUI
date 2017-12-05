@@ -12,10 +12,18 @@
 
 import * as models from './models';
 
-export interface NodeData {
+/**
+ * Information about the user session, including the user claims (permissions) and the session expiration.
+ */
+export interface UserSession {
     /**
-     * The string data of the node.
+     * The number of seconds the session will take to expire.
      */
-    data: string;
+    expirationSeconds?: number;
+
+    /**
+     * The list of user claims.
+     */
+    claims?: Array<string>;
 
 }

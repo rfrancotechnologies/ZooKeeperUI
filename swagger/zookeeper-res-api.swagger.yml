@@ -2,13 +2,29 @@ swagger: '2.0'
 info:
   version: 1.0.0
   title: ZooKeeper REST API
+  description: |
+    The ZooKeeper REST API provides support for the ZooKeeperUI web application. The API provides different endpoints to access and modify ZooKeeper ZNodes.
+    
+    ### Authentication
+    
+    All the operations of this API are authenticated. In order to start a new player session you need to invoke the `POST /sessions` operation, providing some user credentials. This operation will include an `ACCESS_TOKEN` cookie in the returned response, containing an authentication token.  This cookie must be provided in any subsequent call to the API in order to be correctly authenticated. If you are accessing this API from a web application running in a browser, the browser will already do it for you.
+    
+    The returned `ACCESS_TOKEN` cookie will expire after a configurable amount of time. In order to keep your session open you have to refresh your session via the `PUT /sessions/current` operation.
+    
+    A default authentication provider is included, that checks the user credentials against the `users` configuration property, which is an array of user name and password tuples. As this is a Spring Boot application, the `users` configuration property can be provided via a configuration file, environment variables, command line arguments, and Java properties. 
+    
+    In addition to the default authentication provider, you can provide your own, by implementing the **TODO** interface and adding your implementation to the classpath when running the application.
+    
+    In order to allow users to access the API, not only have them to be authenticated, but they also need to provide the appropriate user claims. User claims grant the user permissions to perform some certain actions. Currently the only requested claim for the whole application is `ZOOKEEPER_USER`. 
+    
+    If you are using the default user authentication provider (based on the configuration properties), all the authenticated users will have this permission included by default. If you are using your custom authentication provider, you will have to make sure that the users have the `ZOOKEEPER_USER` claim.
 schemes:
   - http
   - https
 produces:
   - application/json
 paths:
-  /nodes/{nodePath}:
+  /api/nodes/{nodePath}:
     get:
       summary: Retrieves the data of the given data node.
       description: Retrieves the data of the given data node.
@@ -29,7 +45,7 @@ paths:
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
-          description: Unauthorized call. Invalid user authentication token.
+          description: Unauthorized call. Invalid user authentication cookie.
         '500':
           description: Internal server error. Please retry the operation in a few moments.
     put:
@@ -55,7 +71,7 @@ paths:
         '400':
           description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
         '401':
-          description: Unauthorized call. Invalid user authentication token.
+          description: Unauthorized call. Invalid user authentication cookie.
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '500':
@@ -78,10 +94,10 @@ paths:
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
-          description: Unauthorized call. Invalid user authentication token.
+          description: Unauthorized call. Invalid user authentication cookie.
         '500':
           description: Internal server error. Please retry the operation in a few moments.
-  /nodes/{nodePath}/children:
+  /api/nodes/{nodePath}/children:
     get:
       summary: Retrieves the children of the given data node.
       description: Retrieves the children of the given data node.
@@ -102,7 +118,7 @@ paths:
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
-          description: Unauthorized call. Invalid user authentication token.
+          description: Unauthorized call. Invalid user authentication cookie.
         '500':
           description: Internal server error. Please retry the operation in a few moments.
     post:
@@ -130,10 +146,10 @@ paths:
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
-          description: Unauthorized call. Invalid user authentication token.
+          description: Unauthorized call. Invalid user authentication cookie.
         '500':
           description: Internal server error. Please retry the operation in a few moments.
-  /nodes/{nodePath}/export:
+  /api/nodes/{nodePath}/export:
     get:
       summary: Retrieves an export for the given node.
       description: Retrieves an export for the given node. The export contains the node, including its path and value, and all of its children. Exports are useful for saving snapshots of a given node and subsequently restoring them.
@@ -154,7 +170,7 @@ paths:
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
-          description: Unauthorized call. Invalid user authentication token.
+          description: Unauthorized call. Invalid user authentication cookie.
         '500':
           description: Internal server error. Please retry the operation in a few moments.
     put:
@@ -195,10 +211,10 @@ paths:
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
-          description: Unauthorized call. Invalid user authentication token.
+          description: Unauthorized call. Invalid user authentication cookie.
         '500':
           description: Internal server error. Please retry the operation in a few moments.
-  /nodes/{nodePath}/data_type:
+  /api/nodes/{nodePath}/data_type:
     get:
       summary: Retrieves the data type of the given node.
       description: Retrieves the data type of the given node.
@@ -219,7 +235,7 @@ paths:
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
-          description: Unauthorized call. Invalid user authentication token.
+          description: Unauthorized call. Invalid user authentication cookie.
         '500':
           description: Internal server error. Please retry the operation in a few moments.
     put:
@@ -248,9 +264,69 @@ paths:
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
-          description: Unauthorized call. Invalid user authentication token.
+          description: Unauthorized call. Invalid user authentication cookie.
         '500':
           description: Internal server error. Please retry the operation in a few moments.
+  /api/sessions:
+    post:
+      summary: Creates a new user session, given a user name and a password.
+      description: |
+        Creates a new user session, given a user name and a password.
+        
+        This operation returns a cookie named `ACCESS_TOKEN` in the response. This cookie must be provided in any subsequent call to the API in order to be correctly authenticated. If you are accessing this API from a web application running in a browser, the browser will already do it for you.
+      operationId: createNewUserSession
+      tags:
+        - Sessions
+      parameters:
+        - in: body
+          name: userCredentials
+          description: The user credentials used create a new user session.
+          required: true
+          schema:
+            $ref: '#/definitions/UserCredentials'
+      responses:
+        '200':
+          description: Successful request. The user session has been correctly created. The user claims and session expiration are returned in the response body and the access token is returned in the `ACCESS_TOKEN` cookie.
+          schema:
+            $ref: '#/definitions/UserSession'
+        '400':
+          description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
+        '401':
+          description: Unauthorized call. Invalid user credentials.
+        '500':
+          description: Internal server error. Please retry the operation in a few moments.
+  /api/sessions/current:
+    put:
+      summary: Refreshes the ongoing user session.
+      description: Refreshes the ongoing user session. This operation returns a new `ACCESS_TOKEN` cookie in the response.
+      operationId: refreshSession
+      tags:
+        - Sessions
+      responses:
+        '200':
+          description: Successful request. The user session has been correctly refreshed. The user claims and session expiration are returned in the response body and the new access token is returned in the `ACCESS_TOKEN` cookie.
+          schema:
+            $ref: '#/definitions/UserSession'
+        '400':
+          description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
+        '401':
+          description: Unauthorized call. Invalid user authentication cookie.
+        '500':
+          description: Internal server error. Please retry the operation in a few moments.          
+    delete:
+      summary: Finishes the current session.
+      description:  Finishes the current session. As a result, the server will remove (overwrite) the `ACCESS_TOKEN` cookie will be removed. If you are not accessing this API from a browser or any other framework that automatically manages cookies, you also have to manually remove the `ACCESS_TOKEN` cookie from your client.
+      operationId: closeSession
+      tags:
+        - Sessions
+      responses:
+        '204':
+          description: Successful request. The session has been successfully closed. No content is returned in the response body.
+        '401':
+          description: Unauthorized call. Invalid user authentication cookie.
+        '500':
+          description: Internal server error. Please retry the operation in a few moments.          
+
 definitions:
   ChildrenNodes:
     type: object
@@ -306,3 +382,28 @@ definitions:
       - String
       - Number
       - Json
+  UserCredentials:
+    type: object
+    description: User credentials (user and password) that can be used to log a user in the API.
+    properties:
+      userName:
+        description: The user name.
+        type: string
+        example: john.smith
+      password:
+        description: The user password.
+        type: string
+        example: MySecretPassword!
+  UserSession:
+    type: object
+    description: Information about the user session, including the user claims (permissions) and the session expiration.
+    properties:
+      expirationSeconds:
+        description: The number of seconds the session will take to expire.
+        type: integer
+      claims:
+        description: The list of user claims. 
+        type: array
+        items:
+          type: string
+        
