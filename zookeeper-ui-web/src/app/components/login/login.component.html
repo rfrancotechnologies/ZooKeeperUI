@@ -1,36 +1,24 @@
 <app-alerts [alerts]="alerts"></app-alerts>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <div class="account-wall">
+                <img class="profile-img" src="../../../assets/img/logo.png"
+                    alt="">
+                <form class="form-signin" (submit)="logUserIn()">
+                  <input [(ngModel)]="username" name="username" type="text" class="form-control" placeholder="User name" required autofocus #usernameInput="ngModel">
+                  <input [(ngModel)]="password" name="username" type="password" class="form-control" placeholder="Password" required #passwordInput="ngModel">
 
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-<div id="login" class="container">
-  <div class="row-fluid">
-    <div class="span12">
-      <div class="login well well-small">
-        <div class="center">
-          <img src="../../../assets/img/logo.png" alt="logo">
+                  <div *ngIf="authenticationError" class="alert alert-danger">
+                      Invalid user name and password combination.
+                  </div>
+
+                  <button *ngIf="!loading" class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="usernameInput.invalid || passwordInput.invalid">
+                      Sign in
+                  </button>
+                  <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+                </form>
+            </div>
         </div>
-        <form class="login-form" id="UserLoginForm" (submit)="logUserIn()" accept-charset="utf-8">
-          <div class="control-group">
-            <div class="input-prepend">
-              <span class="add-on"><i class="icon-user"></i></span>
-              <input [(ngModel)]="username" name="username" required="required" placeholder="Username" maxlength="255" type="text" id="UserUsername">
-            </div>
-          </div>
-          <div class="control-group">
-            <div class="input-prepend">
-              <span class="add-on"><i class="icon-lock"></i></span>
-              <input [(ngModel)]="password" name="password" required="required" placeholder="Password" type="password" id="UserPassword">
-            </div>
-          </div>
-          <div *ngIf="error" class="alert alert-danger" role="alert">
-            <span class="glyphicon glyphicon-warning-sign"></span> {{error}}
-          </div>
-          <div *ngIf="!loading" class="control-group">
-            <input class="btn btn-primary btn-large btn-block" type="submit" value="Sign in">
-          </div>
-
-          <app-loading-spinner *ngIf="loading"></app-loading-spinner>
-        </form>
-      </div><!--/.login-->
-    </div><!--/.span12-->
-  </div><!--/.row-fluid-->
-</div><!--/.container-->
+    </div>
+</div>

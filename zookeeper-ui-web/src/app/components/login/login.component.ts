@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   username: string;
   password: string;
   alerts: AlertList;
-  error: string;
+  authenticationError: string;
   loading: boolean;
 
   constructor(private _sessionsApi: SessionsApi, private _router: Router) {
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
         (error) => {
           this.loading = false;
           if (error.status === 401) {
-            this.error = 'Invalid user name and password combination.';
+            this.authenticationError = 'Invalid user name and password combination.';
           } else {
             this.alerts.addAlert({
               alertType: AlertType.Error,

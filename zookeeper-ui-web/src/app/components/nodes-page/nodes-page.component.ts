@@ -91,10 +91,9 @@ export class NodesPageComponent implements OnInit {
   }
 
   onError(error:any) {
-    console.log(error);
     this.alerts.addAlert({
       alertType: AlertType.Error,
-      message: `Error received from ZooKeeper REST API. Status code(${error.status}) Error message: ${error._body}`
+      message: `${error.status} - ${JSON.parse(error._body).message}`
     });
   }
 

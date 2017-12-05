@@ -20,8 +20,11 @@ export class HttpInterceptor extends Http {
     intercept(observable: Observable<Response>): Observable<Response> {
         return observable.catch((error, source) => {
             if (error.status === 401) {
-                //window.location.href = '/login';
                 this.router.navigate(['/login']);
+
+                return Observable.throw(error);
+            } else if (error.status === 404) {
+                this.router.navigate(['/not_found']);
 
                 return Observable.throw(error);
             } else {

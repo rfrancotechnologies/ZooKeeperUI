@@ -24,6 +24,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { HttpInterceptor } from './services/http-interceptor.service';
 import { Router } from '@angular/router';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { Router } from '@angular/router';
     FileUploadModalComponent,
     AlertsComponent,
     LoginComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    NotFoundComponent
   ],
   entryComponents: [NodeCreationModalComponent, FileUploadModalComponent],
   imports: [

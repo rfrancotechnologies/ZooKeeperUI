@@ -72,6 +72,8 @@ paths:
           description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
         '401':
           description: Unauthorized call. Invalid user authentication cookie.
+        '403':
+          description: Forbidden. The specified znode is read only.
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '500':
@@ -91,6 +93,8 @@ paths:
       responses:
         '204':
           description: Successful request. No content is returned.
+        '403':
+          description: Forbidden. The specified znode cannot be deleted.
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
