@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-12-05T13:08:55.108+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-12-11T09:09:52.719+01:00")
 
 @Api(value = "Sessions", description = "the Sessions API")
 public interface SessionsApi {
@@ -50,6 +50,18 @@ public interface SessionsApi {
         produces = { "application/json" }, 
         method = RequestMethod.POST)
     ResponseEntity<UserSession> createNewUserSession(@ApiParam(value = "The user credentials used create a new user session." ,required=true )  @Valid @RequestBody UserCredentials userCredentials);
+
+
+    @ApiOperation(value = "Retrieves information about the ongoing session.", notes = "Retrieves information about the ongoing session. This operation is useful for checking weather the session is active.", response = UserSession.class, tags={ "Sessions", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Successful request. The user session has been correctly retrieved. The user claims and session expiration are returned in the response body.", response = UserSession.class),
+        @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication cookie.", response = Void.class),
+        @ApiResponse(code = 500, message = "Internal server error. Please retry the operation in a few moments.", response = Void.class) })
+    
+    @RequestMapping(value = "/api/sessions/current",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<UserSession> getSessionInfo();
 
 
     @ApiOperation(value = "Refreshes the ongoing user session.", notes = "Refreshes the ongoing user session. This operation returns a new `ACCESS_TOKEN` cookie in the response.", response = UserSession.class, tags={ "Sessions", })

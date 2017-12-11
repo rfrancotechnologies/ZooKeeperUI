@@ -73,7 +73,7 @@ export class NodeComponent implements OnInit {
         this.editing = false;
       },
       error => {
-        this.onHttpError(error);
+        this.alerts.addAlert(Alert.fromHttpResponse(error));
       }
     );
   }
@@ -107,16 +107,9 @@ export class NodeComponent implements OnInit {
         this.node.delete();
       },
       error => {
-        this.onHttpError(error);
+        this.alerts.addAlert(Alert.fromHttpResponse(error));
       }
     );
-  }
-
-  onHttpError(error) {
-    this.alerts.addAlert({
-      alertType: AlertType.Error,
-      message: `Error received from ZooKeeper REST API. Status code: ${error.status}. Error message: ${error._body}`
-    });
   }
 
   retrieveNodeData() {
@@ -128,7 +121,7 @@ export class NodeComponent implements OnInit {
           this.jsonEditor.setText(nodeData.data);
         },
         error => {
-          this.onHttpError(error);
+          this.alerts.addAlert(Alert.fromHttpResponse(error));
         }
       );
   }
@@ -140,7 +133,7 @@ export class NodeComponent implements OnInit {
           this.node.type = nodeDataType;
         },
         error => {
-          this.onHttpError(error);
+          this.alerts.addAlert(Alert.fromHttpResponse(error));
         }
       );
   }
@@ -162,7 +155,7 @@ export class NodeComponent implements OnInit {
           })
         },
         error => {
-          this.onHttpError(error);
+          this.alerts.addAlert(Alert.fromHttpResponse(error));
         }
       );
   }

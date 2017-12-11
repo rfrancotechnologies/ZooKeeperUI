@@ -300,6 +300,21 @@ paths:
         '500':
           description: Internal server error. Please retry the operation in a few moments.
   /api/sessions/current:
+    get:
+      summary: Retrieves information about the ongoing session.
+      description:  Retrieves information about the ongoing session. This operation is useful for checking weather the session is active.
+      operationId: getSessionInfo
+      tags:
+        - Sessions
+      responses:
+        '200':
+          description: Successful request. The user session has been correctly retrieved. The user claims and session expiration are returned in the response body.
+          schema:
+            $ref: '#/definitions/UserSession'
+        '401':
+          description: Unauthorized call. Invalid user authentication cookie.
+        '500':
+          description: Internal server error. Please retry the operation in a few moments.   
     put:
       summary: Refreshes the ongoing user session.
       description: Refreshes the ongoing user session. This operation returns a new `ACCESS_TOKEN` cookie in the response.

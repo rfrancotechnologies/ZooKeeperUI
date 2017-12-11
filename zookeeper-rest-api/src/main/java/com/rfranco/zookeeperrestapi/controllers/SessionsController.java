@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 /**
@@ -52,6 +54,15 @@ public class SessionsController implements SessionsApi {
     }
 
     @Override
+    public ResponseEntity<UserSession> getSessionInfo() {
+        Principal userPrincipal = request.getUserPrincipal();
+        if (userPrincipal == null || !(userPrincipal instanceof UsernamePasswordAuthenticationToken))
+            throw new UnauthorizedException("An invalid or no access cookie has been provided.");
+
+        return composeUserSessionResponse((UsernamePasswordAuthenticationToken) userPrincipal);
+    }
+
+    @Override
     public ResponseEntity<UserSession> refreshSession() {
         Principal userPrincipal = request.getUserPrincipal();
         if (userPrincipal == null)
@@ -73,6 +84,25 @@ public class SessionsController implements SessionsApi {
                             .expirationSeconds(jwtTimeout));
 
             return response;
+        }
+        catch(UsernameNotFoundException ex) {
+            throw new UnauthorizedException("The provided user credentials are invalid.");
+        }
+    }
+
+    private ResponseEntity<UserSession> composeUserSessionResponse(UsernamePasswordAuthenticationToken authentication) {
+        try {
+            ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.status(HttpStatus.OK);
+            UserSession userSession = new UserSession()
+                    .claims(authentication.getAuthorities().stream().map(authority -> authority.getAuthority())
+                            .collect(Collectors.toList()));
+
+            if (authentication.getDetails() != null && authentication.getDetails() instanceof Date) {
+                long expirationSeconds = (((Date) authentication.getDetails()).getTime() - (new Date().getTime())) / 1000;
+                userSession.setExpirationSeconds((int) expirationSeconds);
+            }
+
+            return responseBuilder.body(userSession);
         }
         catch(UsernameNotFoundException ex) {
             throw new UnauthorizedException("The provided user credentials are invalid.");

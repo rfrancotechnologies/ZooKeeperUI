@@ -7,13 +7,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" routerLink="/">{{title}}</a>
+      <a class="navbar-brand" href="#">{{title}}</a>
     </div>
-    <div id="navbar" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li class="active"><a routerLink="/">Data Nodes</a></li>
-      </ul>
-    </div><!--/.nav-collapse -->
+    <div id="navbar" class="navbar-collapse collapse">
+      <form *ngIf="isLoggedIn" class="navbar-form navbar-right">
+        <button type="button" class="btn btn-default" (click)="logOut()">Log out</button>
+      </form>
+    </div><!--/.navbar-collapse -->
   </div>
 </nav>
 

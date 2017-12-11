@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-12-05T13:08:55.108+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-12-11T09:09:52.719+01:00")
 
 @Api(value = "Config", description = "the Config API")
 public interface ConfigApi {
@@ -48,6 +48,7 @@ public interface ConfigApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Successful request. No content is returned.", response = Void.class),
         @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication cookie.", response = Void.class),
+        @ApiResponse(code = 403, message = "Forbidden. The specified znode cannot be deleted.", response = Void.class),
         @ApiResponse(code = 404, message = "Not found. It was not possible to find a node with the given path.", response = Void.class),
         @ApiResponse(code = 500, message = "Internal server error. Please retry the operation in a few moments.", response = Void.class) })
     
@@ -128,6 +129,7 @@ public interface ConfigApi {
         @ApiResponse(code = 204, message = "Successful request. No content is returned.", response = Void.class),
         @ApiResponse(code = 400, message = "Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.", response = Void.class),
         @ApiResponse(code = 401, message = "Unauthorized call. Invalid user authentication cookie.", response = Void.class),
+        @ApiResponse(code = 403, message = "Forbidden. The specified znode is read only.", response = Void.class),
         @ApiResponse(code = 404, message = "Not found. It was not possible to find a node with the given path.", response = Void.class),
         @ApiResponse(code = 500, message = "Internal server error. Please retry the operation in a few moments.", response = Void.class) })
     

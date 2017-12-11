@@ -59,7 +59,7 @@ export class NodesPageComponent implements OnInit {
         },
         error => {
           this.loading = false;
-          this.onError(error);
+          this.alerts.addAlert(Alert.fromHttpResponse(error));
         }
       );
   }
@@ -67,9 +67,9 @@ export class NodesPageComponent implements OnInit {
   openAddNodeModal() {
     this.modalRef = this.modalService.show(NodeCreationModalComponent);
     this.modalRef.content.parentNode = this.currentNode;
-    (this.modalRef.content.onError as EventEmitter<string>).subscribe(errorMessage =>
+    (this.modalRef.content.onAlert as EventEmitter<Alert>).subscribe(alert =>
       {
-        this.onError(errorMessage);
+        this.alerts.addAlert(alert);
       }
     );
   }
@@ -88,13 +88,6 @@ export class NodesPageComponent implements OnInit {
 
       }
     );
-  }
-
-  onError(error:any) {
-    this.alerts.addAlert({
-      alertType: AlertType.Error,
-      message: `${error.status} - ${JSON.parse(error._body).message}`
-    });
   }
 
   openFileUploadModal() {

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Response } from '@angular/http';
 
 export enum AlertType {
   Warning,
@@ -26,10 +27,21 @@ export class AlertList {
       this.alerts.splice(index, 1);
   }
 }
-export interface Alert {
+
+export class Alert {
   alertType: AlertType;
   message: string;
   timeOut?: number;
+
+  constructor(alertType: AlertType, message: string, timeOut?: number) {
+    this.alertType = alertType;
+    this.message = message;
+    this.timeOut = timeOut;
+  }
+
+  static fromHttpResponse(httpResponse: Response) {
+    return new Alert(AlertType.Error, `${httpResponse.status} - ${JSON.parse((<any> httpResponse)._body).message}`);
+  }
 }
 
 @Component({

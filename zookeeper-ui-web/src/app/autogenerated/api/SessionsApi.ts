@@ -73,6 +73,21 @@ export class SessionsApi {
     }
 
     /**
+     * Retrieves information about the ongoing session.
+     * Retrieves information about the ongoing session. This operation is useful for checking weather the session is active.
+     */
+    public getSessionInfo(extraHttpRequestParams?: any): Observable<models.UserSession> {
+        return this.getSessionInfoWithHttpInfo(extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
      * Refreshes the ongoing user session.
      * Refreshes the ongoing user session. This operation returns a new &#x60;ACCESS_TOKEN&#x60; cookie in the response.
      */
@@ -149,6 +164,38 @@ export class SessionsApi {
             method: RequestMethod.Post,
             headers: headers,
             body: userCredentials == null ? '' : JSON.stringify(userCredentials), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Retrieves information about the ongoing session.
+     * Retrieves information about the ongoing session. This operation is useful for checking weather the session is active.
+     */
+    public getSessionInfoWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/api/sessions/current';
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });

@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * User credentials (user and password) that can be used to log a user in the API.
  */
 @ApiModel(description = "User credentials (user and password) that can be used to log a user in the API.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-12-05T13:08:55.108+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-12-11T09:09:52.719+01:00")
 
 public class UserCredentials   {
   @JsonProperty("userName")

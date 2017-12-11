@@ -71,13 +71,7 @@ public class CookieAuthenticationService {
                 Claims tokenClaims = Jwts.parser()
                         .setSigningKey(secret)
                         .parseClaimsJws(token.get().getValue()).getBody();
-
-                Collection<String> permissions = tokenClaims.get("permissions", Collection.class);
-
-                return tokenClaims.getSubject() != null ?
-                        new UsernamePasswordAuthenticationToken(tokenClaims.getSubject(), null,
-                                permissions.stream().map(x -> new SimpleGrantedAuthority(x)).collect(Collectors.toList()))
-                        : null;
+                return getAuthenticationInfoFromJwtClaims(tokenClaims);
             } catch(ExpiredJwtException ex) {
                 return null;
             } catch(SignatureException ex) {
@@ -85,5 +79,18 @@ public class CookieAuthenticationService {
             }
         }
         return null;
+    }
+
+    private UsernamePasswordAuthenticationToken getAuthenticationInfoFromJwtClaims(Claims tokenClaims) {
+        Collection<String> permissions = tokenClaims.get("permissions", Collection.class);
+
+        if (tokenClaims.getSubject() == null)
+            return null;
+
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(tokenClaims.getSubject(),
+                null, permissions.stream().map(x -> new SimpleGrantedAuthority(x)).collect(Collectors.toList()));
+        authentication.setDetails(tokenClaims.getExpiration());
+
+        return authentication;
     }
 }
