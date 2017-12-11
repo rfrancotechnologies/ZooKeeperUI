@@ -14,8 +14,7 @@
 </div>
 
 <div class="form-group row">
-  <div (click)="editing = true" class="col-xs-12 col-sm-11">
-
+  <div (mousedown)="editing = true" class="col-xs-12 col-sm-11">
     <input *ngIf="node.type === NodeDataType.String" id="nameInput" type="text" class="form-control" name="node.value" (keyup)="onValueEdited($event)"
         [(ngModel)]="editedValue">
     <input *ngIf="node.type === NodeDataType.Number" id="nameInput" type="number" class="form-control" name="node.value" (keyup)="onValueEdited($event)"
