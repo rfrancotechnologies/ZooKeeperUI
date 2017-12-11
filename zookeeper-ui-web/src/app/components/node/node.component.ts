@@ -73,7 +73,7 @@ export class NodeComponent implements OnInit {
         this.editing = false;
       },
       error => {
-        this.alerts.addAlert(Alert.fromHttpResponse(error));
+        this.alerts.addAlert(Alert.fromResponse(error));
       }
     );
   }
@@ -107,7 +107,7 @@ export class NodeComponent implements OnInit {
         this.node.delete();
       },
       error => {
-        this.alerts.addAlert(Alert.fromHttpResponse(error));
+        this.alerts.addAlert(Alert.fromResponse(error));
       }
     );
   }
@@ -121,7 +121,7 @@ export class NodeComponent implements OnInit {
           this.jsonEditor.setText(nodeData.data);
         },
         error => {
-          this.alerts.addAlert(Alert.fromHttpResponse(error));
+          this.alerts.addAlert(Alert.fromResponse(error));
         }
       );
   }
@@ -133,7 +133,7 @@ export class NodeComponent implements OnInit {
           this.node.type = nodeDataType;
         },
         error => {
-          this.alerts.addAlert(Alert.fromHttpResponse(error));
+          this.alerts.addAlert(Alert.fromResponse(error));
         }
       );
   }
@@ -155,7 +155,7 @@ export class NodeComponent implements OnInit {
           })
         },
         error => {
-          this.alerts.addAlert(Alert.fromHttpResponse(error));
+          this.alerts.addAlert(Alert.fromResponse(error));
         }
       );
   }

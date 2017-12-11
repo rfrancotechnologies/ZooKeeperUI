@@ -9,7 +9,7 @@
     {{node.type}} <span class="caret"></span>
   </button>
   <ul class="dropdown-menu">
-    <li *ngFor="let type of nodeDataTypes"><a href="#" (click)="setDataType(type)">{{type}}</a></li>
+    <li *ngFor="let type of nodeDataTypes"><a (click)="setDataType(type)">{{type}}</a></li>
   </ul>
 </div>
 

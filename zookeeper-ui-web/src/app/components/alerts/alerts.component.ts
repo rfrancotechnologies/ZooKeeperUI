@@ -39,8 +39,20 @@ export class Alert {
     this.timeOut = timeOut;
   }
 
-  static fromHttpResponse(httpResponse: Response) {
-    return new Alert(AlertType.Error, `${httpResponse.status} - ${JSON.parse((<any> httpResponse)._body).message}`);
+  static fromResponse(response: Response) {
+    console.log(response);
+    let message: string;
+    let responseBody: any = response.json();
+
+    if (responseBody instanceof ProgressEvent && responseBody.type == "error") {
+      message = "Error contacting the server.";
+    }
+    else {
+      message = response.status.toString();
+      message += " - " + response.json().message;
+    }
+
+    return new Alert(AlertType.Error, message);
   }
 }
 

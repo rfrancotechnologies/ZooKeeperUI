@@ -59,7 +59,7 @@ export class NodesPageComponent implements OnInit {
         },
         error => {
           this.loading = false;
-          this.alerts.addAlert(Alert.fromHttpResponse(error));
+          this.alerts.addAlert(Alert.fromResponse(error));
         }
       );
   }
