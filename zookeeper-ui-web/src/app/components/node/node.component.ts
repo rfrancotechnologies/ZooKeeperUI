@@ -49,7 +49,7 @@ export class NodeComponent implements OnInit {
     if (this.node.type === NodeDataType.Json) {
       return this.jsonEditor.getText();
     } else {
-      return this._editedValue;
+      return this._editedValue === null ? "" : this._editedValue;
     }
   }
 
