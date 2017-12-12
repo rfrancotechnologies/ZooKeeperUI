@@ -2,6 +2,7 @@ package com.rfranco.zookeeperrestapi.services;
 
 import io.jsonwebtoken.*;
 import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,9 @@ public class CookieAuthenticationService {
     @Value(value="${jwt.timeout_seconds}")
     private int jwtTimeout;
 
+    @Autowired
+    private DateTimeProvider dateTimeProvider;
+
     static final String AUTHENTICATION_COOKIE = "ACCESS_TOKEN";
 
     private Rfc6265CookieProcessor rfc6265CookieProcessor = new Rfc6265CookieProcessor();
@@ -31,7 +35,7 @@ public class CookieAuthenticationService {
     public String createAuthenticationCookie(UserDetails userDetails) {
         String JWT = Jwts.builder()
                 .setSubject(userDetails.getUsername())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtTimeout * 1000))
+                .setExpiration(new Date(dateTimeProvider.currentTimeMillis() + jwtTimeout * 1000))
                 .claim("permissions", userDetails.getAuthorities()
                         .stream().map(authority -> authority.getAuthority()).collect(Collectors.toList()))
                 .signWith(SignatureAlgorithm.HS512, secret)

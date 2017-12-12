@@ -25,7 +25,7 @@ export class NodeCreationModalComponent implements OnInit {
         this.parentNode.addChildNode(this.newNodeName);
       },
       error => {
-        this.onAlert.emit(Alert.fromHttpResponse(error));
+        this.onAlert.emit(Alert.fromResponse(error));
       }
     );
     this.modalRef.hide();
