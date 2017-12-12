@@ -3,7 +3,6 @@ package com.rfranco.zookeeperrestapi.services;
 import io.jsonwebtoken.*;
 import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,14 +11,11 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.net.HttpCookie;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static com.sun.deploy.config.BuiltInProperties.expirationTime;
 
 @Service
 public class CookieAuthenticationService {

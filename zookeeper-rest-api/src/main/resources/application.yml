@@ -1,9 +1,8 @@
 zookeeper:
   connection_string: 127.0.0.1:2181
-  session_timeout_milliseconds: 30000
 
 jwt:
-  secret: WxMkUN$W>z.DEw28gpM'Q+rkL(zR?2EyYr@H;H(w
+  secret: YourJWTSecretPassword
   timeout_seconds: 1800
 
 cors:

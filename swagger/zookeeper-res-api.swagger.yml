@@ -42,6 +42,8 @@ paths:
           description: Successful request. The node data is returned.
           schema:
             $ref: '#/definitions/NodeData'
+        '403':
+          description: Forbidden. The user is not allowed to perform the requested operation. Make sure the user is granted the `ZOOKEEPER_USER` claim and the `X-XSRF-TOKEN` header has been included containing the correct value. 
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
@@ -73,7 +75,7 @@ paths:
         '401':
           description: Unauthorized call. Invalid user authentication cookie.
         '403':
-          description: Forbidden. The specified znode is read only.
+          description: Forbidden. Either the specified znode is read only, the user has not been granted the `ZOOKEEPER_USER` claim or the `X-XSRF-TOKEN` HTTP header contains an invalid value.
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '500':
@@ -94,7 +96,7 @@ paths:
         '204':
           description: Successful request. No content is returned.
         '403':
-          description: Forbidden. The specified znode cannot be deleted.
+          description: Forbidden. Either the specified znode cannot be deleted, the user has not been granted the `ZOOKEEPER_USER` claim or the `X-XSRF-TOKEN` HTTP header contains an invalid value.
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
@@ -119,6 +121,8 @@ paths:
           description: Successful request. The list of children is returned.
           schema:
             $ref: '#/definitions/ChildrenNodes'
+        '403':
+          description: Forbidden. The user is not allowed to perform the requested operation. Make sure the user is granted the `ZOOKEEPER_USER` claim and the `X-XSRF-TOKEN` header has been included containing the correct value. 
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
@@ -147,6 +151,8 @@ paths:
           description: Successful request.No content is returned.
         '400':
           description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
+        '403':
+          description: Forbidden. The user is not allowed to perform the requested operation. Make sure the user is granted the `ZOOKEEPER_USER` claim and the `X-XSRF-TOKEN` header has been included containing the correct value. 
         '404':
           description: Not found. It was not possible to find a node with the given path. 
         '401':
@@ -175,6 +181,8 @@ paths:
           description: Not found. It was not possible to find a node with the given path. 
         '401':
           description: Unauthorized call. Invalid user authentication cookie.
+        '403':
+          description: Forbidden. The user is not allowed to perform the requested operation. Make sure the user is granted the `ZOOKEEPER_USER` claim and the `X-XSRF-TOKEN` header has been included containing the correct value. 
         '500':
           description: Internal server error. Please retry the operation in a few moments.
     put:
@@ -212,10 +220,12 @@ paths:
           description: Successful request. The node export has been successfully restored.
         '400':
           description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
-        '404':
-          description: Not found. It was not possible to find a node with the given path. 
         '401':
           description: Unauthorized call. Invalid user authentication cookie.
+        '403':
+          description: Forbidden. The user is not allowed to perform the requested operation. Make sure the user is granted the `ZOOKEEPER_USER` claim and the `X-XSRF-TOKEN` header has been included containing the correct value. 
+        '404':
+          description: Not found. It was not possible to find a node with the given path. 
         '500':
           description: Internal server error. Please retry the operation in a few moments.
   /api/nodes/{nodePath}/data_type:
@@ -240,6 +250,8 @@ paths:
           description: Not found. It was not possible to find a node with the given path. 
         '401':
           description: Unauthorized call. Invalid user authentication cookie.
+        '403':
+          description: Forbidden. The user is not allowed to perform the requested operation. Make sure the user is granted the `ZOOKEEPER_USER` claim and the `X-XSRF-TOKEN` header has been included containing the correct value. 
         '500':
           description: Internal server error. Please retry the operation in a few moments.
     put:
@@ -269,6 +281,8 @@ paths:
           description: Not found. It was not possible to find a node with the given path. 
         '401':
           description: Unauthorized call. Invalid user authentication cookie.
+        '403':
+          description: Forbidden. The user is not allowed to perform the requested operation. Make sure the user is granted the `ZOOKEEPER_USER` claim and the `X-XSRF-TOKEN` header has been included containing the correct value. 
         '500':
           description: Internal server error. Please retry the operation in a few moments.
   /api/sessions:
@@ -313,6 +327,8 @@ paths:
             $ref: '#/definitions/UserSession'
         '401':
           description: Unauthorized call. Invalid user authentication cookie.
+        '403':
+          description: Forbidden. The user is not allowed to perform the requested operation. Make sure the `X-XSRF-TOKEN` header has been included containing the correct value. 
         '500':
           description: Internal server error. Please retry the operation in a few moments.   
     put:
@@ -330,6 +346,8 @@ paths:
           description: Bad request. The request is not a well-formed request or it is missing some required parameters. An error message is returned indicating the nature of the error.
         '401':
           description: Unauthorized call. Invalid user authentication cookie.
+        '403':
+          description: Forbidden. The user is not allowed to perform the requested operation. Make sure the `X-XSRF-TOKEN` header has been included containing the correct value. 
         '500':
           description: Internal server error. Please retry the operation in a few moments.          
     delete:
@@ -343,6 +361,8 @@ paths:
           description: Successful request. The session has been successfully closed. No content is returned in the response body.
         '401':
           description: Unauthorized call. Invalid user authentication cookie.
+        '403':
+          description: Forbidden. The user is not allowed to perform the requested operation. Make sure the `X-XSRF-TOKEN` header has been included containing the correct value. 
         '500':
           description: Internal server error. Please retry the operation in a few moments.          
 

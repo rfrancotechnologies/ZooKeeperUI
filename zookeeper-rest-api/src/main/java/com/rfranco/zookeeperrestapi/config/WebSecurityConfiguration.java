@@ -64,6 +64,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
             .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/sessions").permitAll()
+                .antMatchers("/api/sessions/**").authenticated()
                 .antMatchers("/api/**").hasAuthority("ZOOKEEPER_USER")
                 .antMatchers(HttpMethod.GET, "/**").permitAll()
                 .and()
