@@ -85,8 +85,10 @@ export class NodesPageComponent implements OnInit {
           alertType: AlertType.Success,
           message: `Node exported successfully!`
         });
-
-      }
+      },
+      error => {
+        this.alerts.addAlert(Alert.fromResponse(error));
+      }      
     );
   }
 
@@ -106,10 +108,7 @@ export class NodesPageComponent implements OnInit {
               });
             },
             error => {
-              this.alerts.addAlert({
-                alertType: AlertType.Error,
-                message: error
-              });
+              this.alerts.addAlert(Alert.fromResponse(error));
               this.modalRef.hide();
             }
           );

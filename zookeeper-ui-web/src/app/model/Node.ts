@@ -70,9 +70,13 @@ export class Node {
     let parentPath: string = pathSeparator;
     parents.push(new Node(Node.ROOT_NODE_PATH));
 
-    let pathSegments = this.path.split(pathSeparator).filter(pathSegment => pathSegment.length > 0);;
+    let pathSegments = this.path.split(pathSeparator).filter(pathSegment => pathSegment.length > 0);
 
     for (let pathSegment of pathSegments) {
+      if (!parentPath.endsWith(pathSeparator)) {
+        parentPath += pathSeparator;
+      }
+
       parentPath += pathSegment;
       parents.push(new Node(parentPath));
     }

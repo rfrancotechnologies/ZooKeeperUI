@@ -106,7 +106,7 @@ public class ZooKeeperService {
                     .value(getNodeData(path));
             List<String> children = getNodeChildren(path);
             for (String childName: children) {
-                export.addChildrenItem(getNodeExport(ZKPaths.fixForNamespace(path, childName)));
+                export.addChildrenItem(getNodeExport(ZKPaths.fixForNamespace(path, "/" + childName)));
             }
             return export;
         } catch(KeeperException ex) {
@@ -134,12 +134,12 @@ public class ZooKeeperService {
                 ).toArray(size -> new String[size]);
 
                 for (String childNotInExport: existingChildrenNotInExport) {
-                    deleteNode(ZKPaths.fixForNamespace(path, childNotInExport));
+                    deleteNode(ZKPaths.fixForNamespace(path, "/" + childNotInExport));
                 }
             }
 
             for (NodeExport childNode: node.getChildren()) {
-                restoreNodeExport(ZKPaths.fixForNamespace(path, childNode.getName()), childNode, prune, overwrite);
+                restoreNodeExport(ZKPaths.fixForNamespace(path, "/" + childNode.getName()), childNode, prune, overwrite);
             }
         } catch(KeeperException ex) {
             if (ex.code() == KeeperException.Code.NONODE)
