@@ -25,6 +25,7 @@ describe('LoginComponent', () => {
   let router: Router;
 
   beforeEach(async(() => {
+    jasmine.MAX_PRETTY_PRINT_DEPTH = 5;
     TestBed.configureTestingModule({
       imports: [ FormsModule ],
       declarations: [ LoginComponent, AlertsComponent, LoadingSpinnerComponent ],
@@ -58,7 +59,7 @@ describe('LoginComponent', () => {
     expect(loginService.logIn).toHaveBeenCalledWith('TestUserName', 'TestUserPassword');
   });
 
-  it('should log navigate to / when the user is correctly logged in', fakeAsync(() => {
+  it('should navigate to "/" when the user is correctly logged in', fakeAsync(() => {
     let spy = spyOn(loginService, 'logIn')
         .and.returnValue(Observable.of({}));
     let routerSpy = spyOn(router, 'navigate');
@@ -75,4 +76,43 @@ describe('LoginComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/']);
   }));
 
+  it('should show an invalid password message when receiving 401 from the login service', fakeAsync(() => {
+    let spy = spyOn(loginService, 'logIn')
+        .and.returnValue(Observable.throw({ status: 401 }));
+
+    component.username = 'TestUserName';
+    component.password = 'TestWrongPassword';
+    fixture.detectChanges();
+
+    let loginForm = fixture.debugElement.query(By.css('form'));
+    loginForm.triggerEventHandler('submit', null);
+    tick();
+    fixture.detectChanges();
+
+    let alertMessage = fixture.debugElement.query(By.css('.alert'));
+    expect(alertMessage).not.toBeNull();
+    expect(alertMessage.nativeElement.textContent).toContain('Invalid user name and password combination');
+  }));
+
+  it('should show a spinner instead of the login button while logging in and show the button back when finished', fakeAsync(() => {
+    let spy = spyOn(loginService, 'logIn')
+        .and.returnValue(Observable.of({}).delay(0));
+
+    component.username = 'TestUserName';
+    component.password = 'TestWrongPassword';
+    fixture.detectChanges();
+
+    let loginForm = fixture.debugElement.query(By.css('form'));
+    loginForm.triggerEventHandler('submit', null);
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('button'))).toBeNull();
+    expect(fixture.debugElement.query(By.css('app-loading-spinner'))).not.toBeNull();
+
+    tick();
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('button'))).not.toBeNull();
+    expect(fixture.debugElement.query(By.css('app-loading-spinner'))).toBeNull();
+  }));
 });
