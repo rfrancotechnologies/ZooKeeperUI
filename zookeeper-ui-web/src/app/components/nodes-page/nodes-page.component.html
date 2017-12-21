@@ -24,7 +24,7 @@
 <div *ngIf="!loading" class="row">
   <ul *ngIf="currentNode.hasChildren" class="list-group">
     <li *ngFor="let child of currentNode.children" class="list-group-item">
-      <app-node [node]="child" (onNavigateToNode)="setCurrentNode(child)"></app-node>
+      <app-node [node]="child"></app-node>
     </li>
   </ul>
   <ul *ngIf="!currentNode.hasChildren" class="list-group" >

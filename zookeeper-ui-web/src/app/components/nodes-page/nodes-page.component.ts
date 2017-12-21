@@ -88,7 +88,7 @@ export class NodesPageComponent implements OnInit {
       },
       error => {
         this.alerts.addAlert(Alert.fromResponse(error));
-      }      
+      }
     );
   }
 

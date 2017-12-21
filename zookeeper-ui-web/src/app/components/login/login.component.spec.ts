@@ -25,7 +25,6 @@ describe('LoginComponent', () => {
   let router: Router;
 
   beforeEach(async(() => {
-    jasmine.MAX_PRETTY_PRINT_DEPTH = 5;
     TestBed.configureTestingModule({
       imports: [ FormsModule ],
       declarations: [ LoginComponent, AlertsComponent, LoadingSpinnerComponent ],
@@ -38,6 +37,7 @@ describe('LoginComponent', () => {
   }));
 
   beforeEach(() => {
+    jasmine.MAX_PRETTY_PRINT_DEPTH = 5;
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
 

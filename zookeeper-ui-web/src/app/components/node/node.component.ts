@@ -16,7 +16,6 @@ import { Observable } from 'rxjs';
 })
 export class NodeComponent implements OnInit {
   @Input() node: Node;
-  @Output() onNavigateToNode = new EventEmitter<void>();
   editing: boolean;
   modalRef: BsModalRef;
   alerts: AlertList;
@@ -33,16 +32,14 @@ export class NodeComponent implements OnInit {
   }
 
   ngOnInit() {
+    if ((window as any).jasmine === undefined)
+    {
+      this.jsonEditor = new JSONEditor(this.jsonEditorContainer.nativeElement, {});
+      this.jsonEditor.setMode('code');
+    }
+
     this.retrieveNodeData();
     this.retrieveNodeDataType();
-
-    // create the jsonEditor
-    this.jsonEditor = new JSONEditor(this.jsonEditorContainer.nativeElement, {});
-    this.jsonEditor.setMode('code');
-  }
-
-  navigateToNode() {
-    this.onNavigateToNode.emit();
   }
 
   get editedValue(): string {
@@ -118,7 +115,8 @@ export class NodeComponent implements OnInit {
         nodeData => {
           this.node.value = nodeData.data;
           this.editedValue = nodeData.data;
-          this.jsonEditor.setText(nodeData.data);
+          if (this.jsonEditor)
+            this.jsonEditor.setText(nodeData.data);
         },
         error => {
           this.alerts.addAlert(Alert.fromResponse(error));
