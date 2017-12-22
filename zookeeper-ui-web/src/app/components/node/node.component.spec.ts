@@ -87,7 +87,8 @@ describe('NodeComponent', () => {
   it('should set the node data type in the config api when a data type is selected in the dropdown', () => {
     fixture.detectChanges();
 
-    let spy = spyOn(configApi, 'setNodeDataType');
+    let spy = spyOn(configApi, 'setNodeDataType')
+        .and.returnValue(Observable.never());
 
     let numberDropDownEntry = fixture.debugElement.query(By.css('.Number-selector'));
     numberDropDownEntry.triggerEventHandler('click', null);
@@ -122,7 +123,8 @@ describe('NodeComponent', () => {
   it('should save node data when clicking on the save button', () => {
     fixture.detectChanges();
 
-    let spy = spyOn(configApi, 'setNodeData');
+    let spy = spyOn(configApi, 'setNodeData')
+        .and.returnValue(Observable.never());
 
     let inputsContainer = fixture.debugElement.query(By.css('.inputs-container-selector'));
     inputsContainer.triggerEventHandler('mousedown', null);

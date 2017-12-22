@@ -48,7 +48,8 @@ describe('LoginComponent', () => {
 
 
   it('should log the user in when the login form is submitted', () => {
-    let spy = spyOn(loginService, 'logIn');
+    let spy = spyOn(loginService, 'logIn')
+        .and.returnValue(Observable.never());
     component.username = 'TestUserName';
     component.password = 'TestUserPassword';
     fixture.detectChanges();
