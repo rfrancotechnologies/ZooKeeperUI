@@ -15,8 +15,9 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 group = 'com.rfranco'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = 1.8
+jar.archiveName = "${jar.baseName}.${jar.extension}"
 
 repositories {
 	mavenCentral()
