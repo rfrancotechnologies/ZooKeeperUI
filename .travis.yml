@@ -4,7 +4,7 @@ sudo: required
 jdk: openjdk8
   
 install:
-    - cd ../zookeeper-ui-web
+    - cd zookeeper-ui-web
     - npm install --silent
     - cd ..
     
