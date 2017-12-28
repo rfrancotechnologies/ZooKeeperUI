@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, Input, Component } from '@angular/core';
 
 @Directive({
   selector: '[routerLink]',
@@ -14,3 +14,6 @@ export class RouterLinkStubDirective {
     this.navigatedTo = this.linkParams;
   }
 }
+
+@Component({selector: 'router-outlet', template: ''})
+export class RouterOutletStubComponent {}

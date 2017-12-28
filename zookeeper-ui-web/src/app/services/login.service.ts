@@ -14,10 +14,10 @@ export class LoginService {
   }
 
   private set loggedIn(value: boolean) {
-    this._isLoggedInObservable.next(value);
     if (value === false) {
       this._router.navigate(['/login']);
     }
+    this._isLoggedInObservable.next(value);
   }
 
   public get loggedInObservable(): Observable<boolean> {

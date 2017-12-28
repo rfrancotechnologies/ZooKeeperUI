@@ -33,7 +33,7 @@ export class NodesPageComponent implements OnInit {
     this.route.params.map(params => params['nodePath'])
       .subscribe((nodePath) => this.setCurrentNode(nodePath));
 
-    this.currentNodeParents = this.currentNode.parents;
+    this.currentNodeParents = [];
     this.loading = true;
   }
 

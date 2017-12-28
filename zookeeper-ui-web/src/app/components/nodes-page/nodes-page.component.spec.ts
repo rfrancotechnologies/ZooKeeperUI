@@ -67,7 +67,14 @@ describe('NodesPageComponent', () => {
   });
 
   it('should, on initialization, read the node path from query params, set the current node from it and load its children', fakeAsync(() => {
-    
+    let spy = spyOn(configApi, 'getNodeChildren')
+        .and.returnValue(Observable.never());
+
+    tick();
+    fixture.detectChanges();
+    expect(component.currentNode).not.toBeUndefined();
+    expect(component.currentNode.path).toBe(testNodePath);
+    expect(configApi.getNodeChildren).toHaveBeenCalledWith(testNodePath);
   }));
 
   it('should open the add node modal when the plus button is pressed', () => {

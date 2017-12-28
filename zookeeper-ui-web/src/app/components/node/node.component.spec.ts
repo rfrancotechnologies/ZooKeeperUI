@@ -80,7 +80,7 @@ describe('NodeComponent', () => {
   it('should set the node value, node type and value the inputs when loaded from the configuration API', () => {
     fixture.detectChanges();
     expect(component.node.value).toBe('test value');
-    expect(component.node.type).toBe('String');
+    expect(component.node.type).toBe(NodeDataType.String);
     expect(component._editedValue).toBe('test value');
   });
 
