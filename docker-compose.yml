@@ -1,0 +1,22 @@
+version: '2.0'
+
+services:
+    zookeeper-ui-web: 
+        image: rubms/zookeeper-ui-web
+        links:
+            - zookeeper-ui-api
+        ports:
+            - 8080:80
+        volumes:
+            - ./zookeeper-ui-web/nginx/app_config.json:/usr/share/nginx/html/config.json
+            
+    zookeeper-ui-api: 
+        image: rubms/zookeeper-ui-api
+        links:
+            - zookeeper
+        environment:
+            - ZOOKEEPER_CONNECTION_STRING=zookeeper:2181
+    
+    zookeeper:
+        image: zookeeper:3.5
+        
