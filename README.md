@@ -2,6 +2,9 @@
 
 Angular 4 web application and Spring Boot REST API that act as a user interface for ZooKeeper. 
 
+[![Build History](https://buildstats.info/travisci/chart/mediatechsolutions/ZooKeeperUI?branch=master)](https://travis-ci.org/mediatechsolutions/ZooKeeperUI)
+[![Build Status](https://travis-ci.org/mediatechsolutions/ZooKeeperUI.svg?branch=master)](https://travis-ci.org/mediatechsolutions/ZooKeeperUI)
+
 In order to use the Angular 4 application you also need to deploy the REST API and configure the Angular 4 application to point to it. You can review the specific documentation of configuration of both, the Angular 4 application and the REST API, in order to learn more about this topic.
 
 ## Features:
