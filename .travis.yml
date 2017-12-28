@@ -1,0 +1,15 @@
+dist: trusty
+sudo: required
+
+jdk: openjdk8
+  
+install:
+    - cd ../zookeeper-ui-web
+    - npm install --silent
+    - cd ..
+    
+script:
+    - cd zookeeper-rest-api
+    - gradle test
+    - cd ../zookeeper-ui-web
+    - ng test 
