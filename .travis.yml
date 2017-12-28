@@ -5,6 +5,7 @@ jdk: openjdk8
   
 install:
     - cd zookeeper-ui-web
+    - npm install -g --silent @angular/cli
     - npm install --silent
     - cd ..
     
