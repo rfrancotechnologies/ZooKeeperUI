@@ -1,20 +1,24 @@
 import { ConnectionBackend, Headers, Http, Request, RequestOptions, RequestOptionsArgs, Response } from "@angular/http";
 import { Observable } from "rxjs";
 import 'rxjs/add/operator/catch';
-import { Injectable } from "@angular/core";
+import { Injectable, Injector } from "@angular/core";
 import { Router } from '@angular/router';
 
 @Injectable()
 export class HttpInterceptor extends Http {
     constructor(backend: ConnectionBackend,
                 defaultOptions: RequestOptions,
-                private router: Router) {
+                private injector: Injector) {
         super(backend, defaultOptions);
     }
 
     request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
         // Redirect to login when a 401 response is received
         return this.intercept(super.request(url, options));
+    }
+
+    private get router(): Router {
+       return this.injector.get(Router);
     }
 
     intercept(observable: Observable<Response>): Observable<Response> {

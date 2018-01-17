@@ -40,7 +40,6 @@ export class Alert {
   }
 
   static fromResponse(response: Response) {
-    console.log(response);
     let message: string;
     let responseBody: any = response.json();
 
