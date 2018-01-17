@@ -53,7 +53,7 @@ describe('NodeComponent', () => {
     jasmine.MAX_PRETTY_PRINT_DEPTH = 5;
     fixture = TestBed.createComponent(NodeComponent);
     component = fixture.componentInstance;
-    component.node = new Node('/test/path/nodeName');
+    component.node = new Node('~~test~~path~~nodeName');
     configApi = fixture.debugElement.injector.get(ConfigApi);
   });
 
@@ -64,7 +64,7 @@ describe('NodeComponent', () => {
     let routerLink = nodeNameLink.injector.get(RouterLinkStubDirective) as RouterLinkStubDirective;
     nodeNameLink.triggerEventHandler('click', null);
 
-    expect(routerLink.linkParams).toBe('/nodes/test/path/nodeName');
+    expect(routerLink.linkParams).toBe('/nodes/~~test~~path~~nodeName');
   });
 
   it('should set show the znode passed in as an input with the retrieved value and data type', () => {
@@ -93,7 +93,7 @@ describe('NodeComponent', () => {
     let numberDropDownEntry = fixture.debugElement.query(By.css('.Number-selector'));
     numberDropDownEntry.triggerEventHandler('click', null);
 
-    expect(configApi.setNodeDataType).toHaveBeenCalledWith('/test/path/nodeName', NodeDataType.Number);
+    expect(configApi.setNodeDataType).toHaveBeenCalledWith('~~test~~path~~nodeName', NodeDataType.Number);
   });
 
   it('should start edition mode when clicking on the value input', () => {
@@ -133,7 +133,6 @@ describe('NodeComponent', () => {
 
     fixture.debugElement.query(By.css('.save-edition-selector')).triggerEventHandler('click', null);
 
-    expect(configApi.setNodeData).toHaveBeenCalledWith('/test/path/nodeName', { data: 'test value' });
+    expect(configApi.setNodeData).toHaveBeenCalledWith('~~test~~path~~nodeName', { data: 'test value' });
   });
-
 });

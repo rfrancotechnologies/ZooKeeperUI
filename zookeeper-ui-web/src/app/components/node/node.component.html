@@ -1,6 +1,6 @@
 <app-alerts [alerts]="alerts"></app-alerts>
 
-<a class="btn btn-primary btn-xs node-name-selector" type="button" routerLink="/nodes{{node.path}}">
+<a class="btn btn-primary btn-xs node-name-selector" type="button" routerLink="/nodes/{{node.path}}">
   {{node.name}} <span class="badge children-badge">{{node.children.length}} <img class="children-icon" src="../../../assets/img/children.svg" alt="children"></span>
 </a>
 

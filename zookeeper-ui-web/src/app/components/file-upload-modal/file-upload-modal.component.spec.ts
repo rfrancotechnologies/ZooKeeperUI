@@ -22,7 +22,7 @@ describe('FileUploadModalComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should save the selected file when selected', () => {
+  it('should save the chosen file when selected', () => {
     let fileInput = fixture.debugElement.query(By.css('#file'));
     fileInput.triggerEventHandler('change', { 'srcElement': { 'files': ['testfile.json'] } });
     expect(component.file).not.toBeUndefined();

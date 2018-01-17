@@ -27,14 +27,13 @@ export class NodesPageComponent implements OnInit {
               private modalService: BsModalService,
               private route: ActivatedRoute) {
     this.alerts = new AlertList();
+    this.currentNodeParents = [];
   }
 
   ngOnInit() {
+    this.loading = true;
     this.route.params.map(params => params['nodePath'])
       .subscribe((nodePath) => this.setCurrentNode(nodePath));
-
-    this.currentNodeParents = [];
-    this.loading = true;
   }
 
   setCurrentNode(nodePath: string): void {
