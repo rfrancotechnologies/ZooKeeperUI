@@ -26,7 +26,7 @@
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "intl": "^1.2.5",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "jsoneditor": "^5.11.0",
     "ngx-bootstrap": "^2.0.0-beta.8",
     "ngx-uploader": "^4.2.1",
